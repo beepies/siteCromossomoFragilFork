@@ -8,10 +8,11 @@ if ($dados){
     $nome = $dados['nome'] ?? '';
     $email = $dados['email'] ?? '';
     $senha = $dados['senha'] ?? '';
+    $senhaHash = password_hash($senha, PASSWORD_BCRYPT, ['cost'=> 12]);
 
     $host = "localhost";
     $user = "root";
-    $pass = ""; 
+    $pass = "PUC@1234"; 
     $db   = "meu_site";
 
     // Conecta ao banco de dados
@@ -25,7 +26,7 @@ if ($dados){
     // Prepara a consulta SQL para inserir os dados
     $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $nome, $email, $senha);
+    $stmt->bind_param("sss", $nome, $email, $senhaHash);
 
     if ($stmt->execute()) {
         // 5. SÓ AGORA você confirma o sucesso

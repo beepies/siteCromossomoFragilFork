@@ -1,3 +1,4 @@
+import {postData} from './utils.js';
 //pega o formulário pelo ID
 const formulario = document.getElementById('meuFormulario');
 
@@ -14,22 +15,15 @@ const dados = {
     };
 
 
-    fetch('back-end.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados) // Transforma o objeto JS em texto JSON
-    })
-    .then(resposta => {
-        if (!resposta.ok) throw new Error('Erro na rede');
-        return resposta.json();
-    })
-    .then(resultado => {
-        alert(resultado.mensagem); 
-        if(resultado.status == 'sucesso') {
+    try{
+        const resultados = /*adiconar await*/ postData('back-end.php', dados);
+    alert(resultado.mensagem); 
+        
+        if(resultado.status === 'sucesso') {
             formulario.reset();
         }
-    })
-    .catch(erro => console.error('Erro ao enviar:', erro));
+    } catch (erro) {
+        console.error('Erro ao enviar:', erro);
+        alert("Erro na comunicação com o servidor.");
+    }
 });
