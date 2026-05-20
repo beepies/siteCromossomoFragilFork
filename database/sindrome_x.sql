@@ -1,7 +1,7 @@
 CREATE DATABASE sindrome_x;
 USE sindrome_x;
--- CRIAÇÃO DAS TABELAS
 
+-- CRIAÇÃO DAS TABELAS
 
 CREATE TABLE profissional_saude (
     id_profissional INT AUTO_INCREMENT PRIMARY KEY,
@@ -238,6 +238,134 @@ END //
 
 DELIMITER ;
 
+-- aplicação de peso
+
+DELIMITER //
+
+CREATE TRIGGER aplicar_peso_sintoma
+BEFORE INSERT ON avaliacao_sintoma
+FOR EACH ROW
+BEGIN
+
+    DECLARE sexo_paciente ENUM('Masculino','Feminino');
+    DECLARE v_peso DECIMAL(5,2);
+
+    -- Busca sexo do titular
+    SELECT p.sexo
+    INTO sexo_paciente
+    FROM avaliacao_clinica a
+    JOIN paciente_titular p
+        ON a.id_paciente = p.id_paciente
+    WHERE a.id_avaliacao = NEW.id_avaliacao;
+
+    -- Se não encontrou, busca dependente
+    IF sexo_paciente IS NULL THEN
+
+        SELECT d.sexo
+        INTO sexo_paciente
+        FROM avaliacao_clinica a
+        JOIN dependente d
+            ON a.id_dependente = d.id_dependente
+        WHERE a.id_avaliacao = NEW.id_avaliacao;
+
+    END IF;
+
+    -- Aplica peso se sintoma estiver presente
+    IF NEW.presente = TRUE THEN
+
+        SELECT peso
+        INTO v_peso
+        FROM peso_sintoma
+        WHERE id_sintoma = NEW.id_sintoma
+        AND sexo = sexo_paciente;
+
+        SET NEW.peso_aplicado = v_peso;
+
+    ELSE
+
+        SET NEW.peso_aplicado = 0;
+
+    END IF;
+
+END //
+
+DELIMITER ;
+
+-- classificacao risco
+
+DELIMITER //
+
+CREATE TRIGGER classificar_risco
+BEFORE UPDATE ON avaliacao_clinica
+FOR EACH ROW
+BEGIN
+
+    DECLARE sexo_paciente ENUM('Masculino','Feminino');
+
+    -- Busca sexo do paciente titular
+    IF NEW.id_paciente IS NOT NULL THEN
+
+        SELECT sexo
+        INTO sexo_paciente
+        FROM paciente_titular
+        WHERE id_paciente = NEW.id_paciente;
+
+    -- Caso seja dependente
+    ELSE
+
+        SELECT sexo
+        INTO sexo_paciente
+        FROM dependente
+        WHERE id_dependente = NEW.id_dependente;
+
+    END IF;
+
+    -- Classificação conforme sexo
+    IF (
+        (sexo_paciente = 'Masculino' AND NEW.score >= 0.56)
+        OR
+        (sexo_paciente = 'Feminino' AND NEW.score >= 0.55)
+    ) THEN
+
+        SET NEW.classificacao_risco = 'Suspeito';
+
+    ELSE
+
+        SET NEW.classificacao_risco = 'Baixo Risco';
+
+    END IF;
+
+END //
+
+DELIMITER ;
+
+
+-- atualizar score
+
+DELIMITER //
+
+
+CREATE TRIGGER atualizar_score
+AFTER INSERT ON avaliacao_sintoma
+FOR EACH ROW
+BEGIN
+
+    DECLARE total_score DECIMAL(5,2);
+
+    
+    SELECT SUM(peso_aplicado)
+    INTO total_score
+    FROM avaliacao_sintoma
+    WHERE id_avaliacao = NEW.id_avaliacao;
+
+    -- Atualiza score
+    UPDATE avaliacao_clinica
+    SET score = total_score
+    WHERE id_avaliacao = NEW.id_avaliacao;
+
+END //
+
+DELIMITER ;
 
 
 
@@ -272,7 +400,6 @@ VALUES
 ('Hipermobilidade articular'),
 ('Macroorquidia'),
 ('Face alongada, mandíbula proeminente e/ou orelhas salientes');
-
 
 -- PESOS MASCULINOS
 
@@ -336,15 +463,13 @@ INSERT INTO avaliacao_clinica
 (
     id_profissional,
     id_paciente,
-    data_avaliacao,
-    classificacao_risco
+    data_avaliacao
 )
 VALUES
 (
     1,
     1,
-    '2026-05-20 14:30:00',
-    'Suspeito'
+    '2026-05-20 14:30:00'
 );
 
 
@@ -368,7 +493,9 @@ VALUES
 (1, 11, TRUE),
 (1, 12, TRUE);
 
+
 -- CONSULTA FINAL
+
 
 SELECT
     p.nome_completo AS paciente,
