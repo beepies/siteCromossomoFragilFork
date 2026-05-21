@@ -8,6 +8,8 @@ CREATE TABLE profissional_saude (
 
     nome_completo VARCHAR(150) NOT NULL,
 
+    senha_profissional VARCHAR(28) NOT NULL,
+
     registro_profissional VARCHAR(30)
     UNIQUE NOT NULL,
 
