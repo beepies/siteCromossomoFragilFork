@@ -7,8 +7,8 @@ header('Content-Type: application/json');
 // Conexão única
 $host = "localhost";
 $user = "root";
-$pass = ""; 
-$db   = "meu_site";
+$pass = "1404_Felicia"; 
+$db   = "sindrome_x";
 $conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {

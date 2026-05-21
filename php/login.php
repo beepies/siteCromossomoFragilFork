@@ -15,11 +15,11 @@ if ($dados) {
 
     try {
         //Query para verificar se o usuário existe e obter a senha hash
-        $sql = "SELECT * FROM usuarios WHERE email = ?";
+        $sql = "SELECT id_profissional, nome_completo, email, senha FROM profissional_saude WHERE email = ?";
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            throw new Exception("Erro na preparação do banco");
+            throw new Exception("Erro na preparação do banco: " . $conn->error);
         }
 
         $stmt->bind_param("s", $email);
@@ -31,6 +31,8 @@ if ($dados) {
         if (!$usuario || !password_verify($senha, $usuario['senha'])) {
             responder('erro', "E-mail ou senha incorretos");
         }
+
+        responder('sucesso', "Login realizado com sucesso", ['usuario' => ['id' => $usuario['id_profissional'], 'nome' => $usuario['nome_completo']]]);
 
         $stmt->close();
     } catch (Exception $e) {
