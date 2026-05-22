@@ -2,11 +2,11 @@
 
 Sistema web para cadastro e autenticação de profissionais de saúde.
 
-## 🚀 Configuração Local
+## Configuração Local
 
 ### Pré-requisitos
 - PHP 7.4+
-- MySQL/MariaDB
+- MySQL
 - Composer
 - XAMPP ou similar
 
@@ -36,22 +36,6 @@ Sistema web para cadastro e autenticação de profissionais de saúde.
    DB_NAME=seu_banco_de_dados
    ```
 
-4. **Crie o banco de dados**
-   
-   Crie a tabela `profissional_saude`:
-   ```sql
-   CREATE TABLE profissional_saude (
-       id_profissional INT AUTO_INCREMENT PRIMARY KEY,
-       nome_completo VARCHAR(255) NOT NULL,
-       email VARCHAR(255) UNIQUE NOT NULL,
-       registro_profissional VARCHAR(100) UNIQUE NOT NULL,
-       especialidade VARCHAR(100) NOT NULL,
-       telefone VARCHAR(20) UNIQUE NOT NULL,
-       instituicao VARCHAR(255) NOT NULL,
-       senha VARCHAR(255) NOT NULL,
-       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-   );
-   ```
 
 5. **Acesse a aplicação**
    ```
@@ -59,7 +43,7 @@ Sistema web para cadastro e autenticação de profissionais de saúde.
    http://localhost/Site/login.html    (Login)
    ```
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 ├── index.html           # Página de cadastro
@@ -77,26 +61,22 @@ Sistema web para cadastro e autenticação de profissionais de saúde.
 └── composer.json       # Gerenciador de dependências
 ```
 
-## 🔐 Segurança
+## Segurança
 
 - Senhas armazenadas com hash bcrypt (PASSWORD_BCRYPT)
 - Prepared statements para prevenir SQL Injection
 - Variáveis sensíveis em `.env` (não commitadas)
 - Tratamento de exceções
 
-## 📝 Notas
+## Notas
 
 - O arquivo `.env` é ignorado pelo Git (contém credenciais)
 - Sempre use `.env.example` como template
 - Nunca commite o `.env` com dados reais
 
-## 👥 Contribuindo
+## Contribuindo
 
 1. Crie uma branch para sua feature
 2. Faça commit das mudanças
 3. Push para a branch
 4. Abra um Pull Request
-
-## 📄 Licença
-
-MIT
