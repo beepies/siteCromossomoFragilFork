@@ -50,7 +50,11 @@ def setup_database():
 
             telefone VARCHAR(20),
 
-            instituicao VARCHAR(200)
+            instituicao VARCHAR(200),
+
+            token VARCHAR(255),
+
+            data_expiracao DATETIME
 
         )
 
