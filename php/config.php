@@ -26,15 +26,16 @@ if ($conn->connect_error) {
 }
 
 // Função para ler o JSON enviado pelo JS (evita repetir file_get_contents)
-function receberDados() {
+function receberDados()
+{
     $input = file_get_contents('php://input');
     return json_decode($input, true);
 }
 
 // Função para responder ao JS sempre no mesmo padrão
-function responder($status, $mensagem, $dadosExtras = []) {
+function responder($status, $mensagem, $dadosExtras = [])
+{
     $resposta = ['status' => $status, 'mensagem' => $mensagem];
     echo json_encode(array_merge($resposta, $dadosExtras));
     exit;
 }
-?>

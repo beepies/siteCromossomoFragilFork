@@ -1,12 +1,13 @@
-import { getDados, postData } from "./utils.js";
-const defaultQuestions = [ ];
-
+import { getDados, postData, verificarSessao } from "./utils.js";
+const defaultQuestions = [];
 
 let questions = defaultQuestions;
 
 const historico = [];
 let perguntaAtual = 0;
 let answers = {};
+
+let usuarioLogado = null;
 
 function addToHistorico(data) {
     historico.unshift(data);
@@ -46,7 +47,8 @@ function renderHistorico() {
     }).join("");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    await verificarSessao()
     const btnIniciar = document.querySelector(".homeStartBtn");
     if (btnIniciar) {
         btnIniciar.addEventListener("click", startQuiz);
@@ -180,7 +182,7 @@ async function finishQuiz() {
     try {
         // Agora você usa a função genérica postData
         const result = await postData("php/quiz.php", dadosForBackend);
-        
+
         addToHistorico(dadosForBackend);
         alert(result.mensagem || "Triagem enviada com sucesso.");
         mostraTab("tab-home");

@@ -32,7 +32,33 @@ if ($dados) {
             responder('erro', "E-mail ou senha incorretos");
         }
 
-        responder('sucesso', "Login realizado com sucesso", ['usuario' => ['id' => $usuario['id_profissional'], 'nome' => $usuario['nome_completo']]]);
+        // Gerar um token único para esta sessão
+        $token_unico = false;
+        $token = '';
+        // Garante que o token gerado não esteja em uso por outro usuário
+        while (!$token_unico) {
+            $token = bin2hex(random_bytes(32));
+
+            // Verifica se esse token já está sendo usado por alguém
+            $check = $conn->prepare("SELECT id_profissional FROM profissional_saude WHERE token = ?");
+            $check->bind_param("s", $token);
+            $check->execute();
+            if ($check->get_result()->num_rows === 0) {
+                $token_unico = true; // Achamos um token que ninguém tem
+            }
+        }
+        // Define a expiração do token (24 horas)
+        $expiracao = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        // Salva o token no banco para este usuário
+        $sql_update = "UPDATE profissional_saude SET token = ?, data_expiracao = ? WHERE id_profissional = ?";
+        $stmt_update = $conn->prepare($sql_update);
+        $stmt_update->bind_param("ssi", $token, $expiracao, $usuario['id_profissional']);
+        $stmt_update->execute();
+        // Responde com sucesso e inclui o token e dados do usuário
+        responder('sucesso', "Login realizado com sucesso", ['usuario' => [
+            'id' => $usuario['id_profissional'],
+            'nome' => $usuario['nome_completo']
+        ], 'token' => $token]);
 
         $stmt->close();
     } catch (Exception $e) {

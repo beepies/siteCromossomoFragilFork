@@ -1,8 +1,17 @@
 // Função universal para requisições POST (substitui todos os seus fetch repetidos)
 export async function postData(url = '', data = {}) {
+    // Tenta pegar o token do localStorage
+    const token = localStorage.getItem('token_acesso');
+    
+    // Configura os headers
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) {
+        headers['Authorization'] = token; // Adiciona o token se ele existir
+    }
+
     const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify(data)
     });
 
@@ -22,7 +31,7 @@ export async function resultado(url = '', data = {}, elementoForm = null) {
             elementoForm.reset();
         }
 
-        return resposta.mensagem; 
+        return resposta; 
 
     } catch (erro) {
         console.error('Erro ao enviar:', erro);
@@ -36,4 +45,43 @@ export async function getDados(url = '') {
         throw new Error(`Erro HTTP ${response.status}`);
     }
     return response.json();
+}
+
+//função para verificar se o usuário tem sessão ativa, caso contrário redireciona para a página de login
+export async function verificarSessao() {
+    const token = localStorage.getItem('token_acesso');
+
+    if (!token) {
+        alert("Sessão expirada ou inválida. Faça login novamente.");
+        window.location.href = 'index.html'; // Usuário não logado
+        return false;
+    }
+
+    try {
+        const response = await fetch('php/verificar_login.php', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': token 
+            }
+        });
+        
+        const data = await response.json();
+
+        if (data.status !== 'sucesso') {
+            alert("Sessão expirada ou inválida. Faça login novamente.");
+            localStorage.removeItem('token_acesso');
+            window.location.href = 'index.html';
+            return false;
+        }
+        
+        return true; // Sessão válida
+    } catch (error) {
+
+        alert("Erro ao verificar sessão:", error);
+        localStorage.removeItem('token_acesso');
+        window.location.href = 'index.html';
+        return false;
+    }
+    
 }
