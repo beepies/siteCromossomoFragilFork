@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Dados do Médico</title>
+</head>
+<body>
+    <h2>Editar Dados do Médico</h2>
+    <form id="formEditarMedico">
+        <label for="nome">Nome completo:</label>
+        <input type="text" id="nome" placeholder="Nome completo do médico" required>
+        <br>
+        <label for="crm">CRM:</label>
+        <input type="text" id="crm" placeholder="Ex: CRM/PR 111111" required>
+        <br>
+        <label for="data_nascimento">Data de nascimento:</label>
+        <input type="date" id="data_nascimento" required>
+        <br>
+
+        <label for="especialidade">Especialidade:</label>
+        <input type="text" id="especialidade" placeholder="Ex: Neurologia, Psiquiatria" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="medico@email.com" required>
+        <br>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" placeholder="Digite o telefone de contato" required>
+        <br>
+
+        <label for="instituicao">Instituição:</label>
+        <input type="text" id="instituicao" placeholder="Hospital ou clínica de atuação" required>
+        <br>
+
+        <label for="senha">Nova senha:</label>
+        <input type="password" id="senha" placeholder="Digite uma nova senha">
+        <br>
+
+        <label for="confirmar_senha">Confirmar nova senha:</label>
+        <input type="password" id="confirmar_senha" placeholder="Confirme a nova senha">
+        <br>
+        <button type="submit">Salvar Alterações</button>
+        <button type="button">Cancelar</button>
+
+    </form>
+</body>
+
+</html>
