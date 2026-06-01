@@ -8,8 +8,6 @@ CREATE TABLE profissional_saude (
 
     nome_completo VARCHAR(150) NOT NULL,
 
-    senha_profissional VARCHAR(28) NOT NULL,
-
     registro_profissional VARCHAR(30)
     UNIQUE NOT NULL,
 
@@ -18,7 +16,9 @@ CREATE TABLE profissional_saude (
     email VARCHAR(100) UNIQUE,
     telefone VARCHAR(20),
 
-    instituicao VARCHAR(200)
+    instituicao VARCHAR(200),
+
+    senha_profissional VARCHAR(28) NOT NULL,
 );
 
 -- =====================================================
@@ -378,13 +378,15 @@ INSERT INTO profissional_saude
 (
     nome_completo,
     registro_profissional,
-    especialidade
+    especialidade,
+    senha_profissional
 )
 VALUES
 (
     'João Silva',
     'CRM12345',
     'Neurologia'
+    'senha_teste'
 );
 
 
