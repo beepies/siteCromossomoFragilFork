@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Paciente</title>
+</head>
+<body>
+
+    <h2>Cadastro de Paciente</h2>
+    <form id="formCadastroPaciente">
+        <label for="nome">Nome completo:</label>
+        <input type="text" id="nome" placeholder="Digite o nome completo do paciente" required>
+        <br>
+
+        <label for="data_nascimento">Data de nascimento:</label>
+        <input type="date" id="data_nascimento" required>
+        <br>
+
+        <label for="contato">Número para contato:</label>
+        <input type="tel" id="contato" placeholder="Digite o número de contato" required>
+        <br>
+
+        <label for="responsavel_legal">Nome do responsável legal:</label>
+        <input type="text" id="responsavel_legal" placeholder="Digite o nome do responsável legal" required>
+        <br>
+
+        <label for="dias_ultimo_quiz">Dias desde a última aplicação do quiz:</label>
+        <input type="number" id="dias_ultimo_quiz" placeholder="Ex: 30" min="0" required>
+        <br>
+
+        <label for="foto_url">Link da foto para análise de sintomas:</label>
+        <input type="url" id="foto_url" placeholder="https://exemplo.com/foto-paciente.jpg" required>
+        <br>
+
+        <button type="submit">Cadastrar Paciente</button>
+
+    </form>
+
+</body>
+
+</html>
