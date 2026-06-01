@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Médico</title>
+</head>
+
+<body>
+
+    <h2>Cadastro de Médico</h2>
+
+    <form id="formCadastroMedico">
+
+        <label for="nome_completo">Nome completo:</label>
+        <input type="text" id="nome_completo" placeholder="Digite o nome completo do profissional" maxlength="150" required>
+        <br>
+
+        <label for="registro_profissional">Registro profissional:</label>
+        <input type="text" id="registro_profissional" placeholder="Ex: CRM/PR 111111" maxlength="30" required>
+        <br>
+
+        <label for="especialidade">Especialidade:</label>
+        <input type="text" id="especialidade" placeholder="Ex: Neurologia, Psiquiatria" maxlength="100" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="profissional@email.com" maxlength="100">
+        <br>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" placeholder="Digite o telefone de contato" maxlength="20">
+        <br>
+
+        <label for="instituicao">Instituição:</label>
+        <input type="text" id="instituicao" placeholder="Hospital ou clínica de atuação" maxlength="200">
+        <br>
+
+        <label for="senha_profissional">Senha:</label>
+        <input type="password" id="senha_profissional" placeholder="Digite uma senha" maxlength="255" required>
+        <br>
+
+        <label for="confirmar_senha">Confirmar senha:</label>
+        <input type="password" id="confirmar_senha" placeholder="Confirme a senha" required>
+        <br>
+
+        <button type="submit">Cadastrar Profissional</button>
+
+    </form>
+
+</body>
+
+</html>
