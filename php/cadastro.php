@@ -18,12 +18,12 @@ if ($dados) {
         responder('erro', 'Preencha todos os campos');
     }
 
-    $senhaHash = password_hash($senha, PASSWORD_BCRYPT, ['cost' => 12]);
+    $senhaHash = password_hash($senha, PASSWORD_BCRYPT, ['cost' => 10]);
 
     try {
 
         $sql = "INSERT INTO 
-        profissional_saude (nome_completo, email, registro_profissional, especialidade, telefone, instituicao, senha) 
+        profissional_saude (nome_completo, email, registro_profissional, especialidade, telefone, instituicao, senha_profissional) 
         VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 

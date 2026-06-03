@@ -15,6 +15,7 @@ formulario.addEventListener('submit', async function(event) {
         senha: document.getElementById('senha').value
     };
 
-    alert(await resultado('php/cadastro.php', dados, formulario));
+    const resposta = await resultado('php/cadastro.php', dados, formulario);
+    alert(resposta.mensagem || resposta);
 });
 
