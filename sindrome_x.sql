@@ -5,20 +5,16 @@ USE sindrome_x;
 
 CREATE TABLE profissional_saude (
     id_profissional INT AUTO_INCREMENT PRIMARY KEY,
-
     nome_completo VARCHAR(150) NOT NULL,
-
-    registro_profissional VARCHAR(30)
-    UNIQUE NOT NULL,
-
+    registro_profissional VARCHAR(30) UNIQUE NOT NULL,
     especialidade VARCHAR(100) NOT NULL,
-
     email VARCHAR(100) UNIQUE,
     telefone VARCHAR(20),
-
     instituicao VARCHAR(200),
-
-    senha_profissional VARCHAR(255) NOT NULL
+    senha_profissional VARCHAR(255) NOT NULL,
+    
+    token VARCHAR(255) UNIQUE,
+    data_expiracao DATETIME
 );
 
 -- =====================================================
