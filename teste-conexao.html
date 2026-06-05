@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Teste de Conexão</h1>
+
+    <button id="btn">
+        Testar Conexão
+    </button>
+
+    <p id="resultado"></p>
+
+    <script>
+        document.getElementById('btn').addEventListener('click', async () => {
+
+            const urlAzure = 'http://20.220.147.250/teste.php';
+
+            try {
+                const response = await fetch(urlAzure);
+                const data = await response.json();
+
+                document.getElementById('resultado').innerText =
+                    data.mensagem;
+
+            } catch (error) {
+
+                document.getElementById('resultado').innerText =
+                    'Erro na conexão!';
+
+                console.error(error);
+            }
+        });
+    </script>
+
+</body>
+</html>
