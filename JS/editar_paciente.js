@@ -1,14 +1,9 @@
 import { postData, resultado, verificarSessao } from './utils.js';
+verificarSessao(); 
 
-verificarSessao();
+const formulario = document.getElementById('formEditarPaciente');
 
-const formulario = document.getElementById('formCadastroPaciente');
-
-// Recupera a string da sessão e converte para um Objeto JavaScript real
-const usuarioSession = sessionStorage.getItem('usuario');
-const medicoLogado = usuarioSession ? JSON.parse(usuarioSession) : null;
-
-// Mapeia os campos esperados pela API / Banco de dados
+// Mapeia os IDs dos inputs HTML com as propriedades que o PHP espera receber
 const campos = {
     numero_inscricao: 'numero_inscricao',
     nome_completo: 'nome_completo',
@@ -18,17 +13,14 @@ const campos = {
     email: 'email',
     telefone: 'telefone',
     endereco: 'endereco',
-    registro_profissional: 'registro_profissional',
-    registro_profissional_atual: 'registro_profissional_atual'
+    novo_registro_profissional_atual: 'novo_registro_profissional_atual'
 };
 
-// Função para coletar dados apenas dos elementos presentes no HTML
+// Função para coletar todos os dados do formulário com segurança
 function coletarDados() {
     const dados = {};
     for (const [id, nomeCampo] of Object.entries(campos)) {
         const elemento = document.getElementById(id);
-        
-        // Só lê o .value se o elemento realmente existir no HTML
         if (elemento) {
             dados[nomeCampo] = elemento.value;
         }
@@ -42,7 +34,7 @@ function validarCPF(cpf) {
     return cpfLimpo.length === 11;
 }
 
-// Função para validar data de nascimento (maioridade)
+// Função para validar data de nascimento (verifica maioridade)
 function validarDataNascimento(data) {
     const dataNasc = new Date(data);
     const hoje = new Date();
@@ -54,12 +46,12 @@ function validarDataNascimento(data) {
     const idadeReal = mesJa ? idade : idade - 1;
     
     if (idadeReal < 18) {
-        return { valido: false, Valley: 'O paciente titular deve ser maior de 18 anos.' };
+        return { valido: false, mensagem: 'O paciente deve ser maior de 18 anos.' };
     }
     return { valido: true };
 }
 
-// Validações estruturais do formulário
+// Validações de preenchimento do formulário
 function validarFormulario(dados) {
     const camposObrigatorios = [
         'numero_inscricao', 
@@ -67,13 +59,12 @@ function validarFormulario(dados) {
         'cpf', 
         'data_nascimento', 
         'sexo', 
-        'registro_profissional', 
-        'registro_profissional_atual'
+        'novo_registro_profissional_atual'
     ];
     
     for (const campo of camposObrigatorios) {
         if (!dados[campo] || dados[campo].trim() === '') {
-            return { valido: false, mensagem: `O campo obrigatório está ausente ou vazio: ${campo}` };
+            return { valido: false, mensagem: `O campo obrigatório está vazio: ${campo}` };
         }
     }
     
@@ -83,7 +74,11 @@ function validarFormulario(dados) {
     
     const validacaoData = validarDataNascimento(dados.data_nascimento);
     if (!validacaoData.valido) {
-        return { valido: false, mensagem: validacaoData.Valley };
+        return validacaoData;
+    }
+    
+    if (dados.novo_registro_profissional_atual.trim().length < 4) {
+        return { valido: false, mensagem: 'O Novo Registro Profissional deve conter um formato válido.' };
     }
     
     return { valido: true };
@@ -93,29 +88,26 @@ function validarFormulario(dados) {
 formulario.addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    // 1. Coleta os campos preenchidos na interface (HTML)
     const dados = coletarDados();
     
-    // 2. Extrai o registro profissional do médico logado na sessão
-    const registroMedico = medicoLogado?.registro_profissional;
-
-    if (!registroMedico) {
-        alert("Sessão inválida ou expirada. Faça login novamente para cadastrar pacientes.");
-        return;
-    }
-
-    // 3. Injeta as informações do médico logado de forma transparente no payload
-    dados.registro_profissional = registroMedico;       // Quem está cadastrando
-    dados.registro_profissional_atual = registroMedico; // Responsável inicial
-
-    // 4. Executa a validação geral com os dados completos
+    // Validação visual e estrutural no front-end
     const validacao = validarFormulario(dados);
     if (!validacao.valido) {
         alert(validacao.mensagem);
         return;
     }
 
-    // 5. Envia os dados acoplados para o backend
-    const resposta = await resultado('php/cadastro_paciente.php', dados, formulario);
+    // Envia os dados para o servidor
+    const resposta = await resultado('php/editar_paciente.php', dados, formulario);
     alert(resposta.mensagem || resposta);
 });
+
+// Event listener para o botão de cancelar
+const btnCancelar = formulario.querySelector('button[type="button"]');
+if (btnCancelar) {
+    btnCancelar.addEventListener('click', () => {
+        if (confirm('Deseja realmente cancelar as edições? As alterações não salvas serão perdidas.')) {
+            formulario.reset();
+        }
+    });
+}
