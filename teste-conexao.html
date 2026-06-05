@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Azure</title>
+</head>
+<body>
+
+<h1>Teste de Conexão Azure</h1>
+
+<button id="btn">
+    Testar Conexão
+</button>
+
+<p id="resultado"></p>
+
+<script>
+
+document.getElementById('btn').addEventListener('click', async () => {
+
+    try {
+
+        const response = await fetch(
+            'http://20.220.147.250/teste.php'
+        );
+
+        const data = await response.json();
+
+        document.getElementById('resultado').innerText =
+            data.mensagem;
+
+    } catch (erro) {
+
+        document.getElementById('resultado').innerText =
+            'Erro na conexão';
+
+        console.error(erro);
+    }
+
+});
+
+</script>
+
+</body>
+</html>
