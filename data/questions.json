@@ -1,0 +1,74 @@
+[
+    {
+        "id": "atraso_fala",
+        "symptom": "Pintoso na fala",
+        "q": "Lorem ipsum dolor sit amet consectetur adipiscing elit?",
+        "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+        "id": "dif_aprendizagem",
+        "symptom": "Dificuldades de aprendizagem",
+        "q": "Sed do eiusmod tempor incididunt ut labore dolore?",
+        "desc": "Ut labore et dolore magna aliqua enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip."
+    },
+    {
+        "id": "deficit_atencao",
+        "symptom": "Déficit de atenção",
+        "q": "Exercitation ullamco laboris nisi ut aliquip ex commodo?",
+        "desc": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+        "id": "def_intelectual",
+        "symptom": "Deficiência intelectual",
+        "q": "Duis aute irure dolor reprehenderit voluptate velit cillum?",
+        "desc": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est."
+    },
+    {
+        "id": "hiperatividade",
+        "symptom": "Hiperatividade",
+        "q": "Excepteur sint occaecat cupidatat non proident deserunt?",
+        "desc": "Deserunt mollit anim id est laborum sed perspiciatis unde omnis iste natus error sit voluptatem accusantium."
+    },
+    {
+        "id": "comp_agressivo",
+        "symptom": "Comportamento agressivo",
+        "q": "Natus error sit voluptatem accusantium doloremque laudantium?",
+        "desc": "Totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta."
+    },
+    {
+        "id": "contato_visual",
+        "symptom": "Evita contato visual",
+        "q": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur?",
+        "desc": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia."
+    },
+    {
+        "id": "contato_fisico",
+        "symptom": "Evita contato físico",
+        "q": "Ut enim ad minima veniam quis nostrum exercitationem?",
+        "desc": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur."
+    },
+    {
+        "id": "mov_repetitivos",
+        "symptom": "Movimentos repetitivos e rítmicos",
+        "q": "At vero eos et accusamus et iusto odio dignissimos?",
+        "desc": "Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime."
+    },
+    {
+        "id": "hipermobilidade",
+        "symptom": "Hipermobilidade articular",
+        "q": "Temporibus autem quibusdam et aut officiis debitis rerum?",
+        "desc": "Quas molestias excepturi sint occaecati cupiditate non provident similique sunt in culpa qui officia deserunt."
+    },
+    {
+        "id": "macroorquidia",
+        "symptom": "Macroorquidia",
+        "q": "Itaque earum rerum hic tenetur sapiente delectus reiciendis?",
+        "desc": "Ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat omnis."
+    },
+    {
+        "id": "face_orelhas",
+        "symptom": "Face alongada / orelhas salientes",
+        "q": "Sed ut perspiciatis unde omnis iste natus error voluptatem?",
+        "desc": "Accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi."
+    }
+]

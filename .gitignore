@@ -1,0 +1,15 @@
+# Pastas do PHP/Composer
+/vendor/
+
+# Arquivos de ambiente (SEGURANÇA!)
+.env
+
+# Pastas de IDE e Sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Pastas de build ou temporários
+/node_modules/
+/dist/
