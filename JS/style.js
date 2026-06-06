@@ -1,5 +1,31 @@
+// Removemos todos os fallbacks antigos e lógicas duplicadas de quiz
+
+// Navegação do painel - Disponibilizado globalmente
+window.mostraTab = function(tabId) {
+    document.querySelectorAll(".tab-content").forEach(tab => tab.style.display = "none");
+    const alvo = document.getElementById(tabId);
+    if (alvo) alvo.style.display = "block";
+    
+    const dropdown = document.getElementById("userDropdown");
+    if (dropdown) dropdown.classList.remove("active");
+};
+
+// Controle do Menu Dropdown do Usuário
+window.abrirDropdown = function() {
+    const dropdown = document.getElementById("userDropdown");
+    if (dropdown) dropdown.classList.toggle("active");
+};
+
+// Fecha o dropdown se clicar fora dele
+window.addEventListener("click", (e) => {
+    if (!e.target.closest(".user-menu")) {
+        const dropdown = document.getElementById("userDropdown");
+        if (dropdown) dropdown.classList.remove("active");
+    }
+});
+
 // login fallback removed: preserve the page when the login block is absent
-const loginForm = document.getElementById("loginForm");
+/*const loginForm = document.getElementById("loginForm");
 if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -187,4 +213,4 @@ function finishQuiz() {
 addToHistorico(dadosForBackend);
     alert("dados convertidos em formato binário");
     mostraTab("tab-home");
-}
+}*/

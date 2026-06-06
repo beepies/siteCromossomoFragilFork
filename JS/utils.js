@@ -85,3 +85,24 @@ export async function verificarSessao() {
     }
     
 }
+
+// Função universal para requisições GET (Adicione no seu utils.js)
+export async function getData(url = '') {
+    const token = localStorage.getItem('token_acesso');
+    
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) {
+        headers['Authorization'] = token; // Injeta o token se ele existir
+    }
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: headers
+    });
+
+    if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.status}`);
+    }
+    
+    return response.json();
+}

@@ -1,70 +1,108 @@
-import { getDados, postData, verificarSessao } from "./utils.js";
-const defaultQuestions = [];
+import { getDados, postData, getData, verificarSessao } from "./utils.js"; // Importado getData
 
-let questions = defaultQuestions;
-
+let questions = [];
 const historico = [];
 let perguntaAtual = 0;
 let answers = {};
+let numeroInscricaoPacienteAtual = "";
 
-let usuarioLogado = null;
+document.addEventListener("DOMContentLoaded", async () => {
+    await verificarSessao();
+    
+    // Configura o botão da Home
+    const btnIniciar = document.querySelector(".homeStartBtn");
+    if (btnIniciar) {
+        btnIniciar.addEventListener("click", () => {
+            // Reseta a tela de busca ao entrar nela
+            resetarTelaBusca();
+            window.mostraTab("tab-identificacao");
+        });
+    }
 
-function addToHistorico(data) {
-    historico.unshift(data);
-    renderHistorico();
-}
+    // Configura o botão de "Verificar"
+    const btnBuscar = document.getElementById("btnBuscarPacienteTriagem");
+    if (btnBuscar) {
+        btnBuscar.addEventListener("click", buscarPacienteParaTriagem);
+    }
 
-function renderHistorico() {
-    const list = document.getElementById("historico-list");
-    if (!list) return;
+    // Configura o botão de "Avançar" para o Quiz
+    const btnAvancar = document.getElementById("btnAvancarParaQuiz");
+    if (btnAvancar) {
+        btnAvancar.addEventListener("click", startQuiz);
+    }
+});
 
-    if (historico.length === 0) {
-        list.innerHTML = '<p class="historico-vazio">Nenhuma triagem realizada nesta sess�o.</p>';
+// Função para buscar o paciente no banco via PHP antes do Quiz
+async function buscarPacienteParaTriagem() {
+    const inputInscricao = document.getElementById("numero_inscricao_triagem");
+    const msgErro = document.getElementById("msgErroIdentificacao");
+    const containerDados = document.getElementById("dadosPacienteTriagem");
+    const btnAvancar = document.getElementById("btnAvancarParaQuiz");
+    
+    const valor = inputInscricao.value.trim();
+
+    if (!valor) {
+        msgErro.innerText = "Por favor, digite o número de inscrição.";
+        msgErro.style.display = "block";
         return;
     }
 
-    list.innerHTML = historico.map(entry => {
-        const date = new Date(entry.timestamp).toLocaleString("pt-BR");
-        const positivos = Object.values(entry.dados).filter(v => v === 1).length;
-        const total = Object.keys(entry.dados).length;
-        const tags = Object.entries(entry.dados).map(([id, val]) => {
-            const question = questions.find(q => q.id === id);
-            const nome = question ? question.symptom : id;
-            const cls = val ? "tag-presente" : "tag-ausente";
-            const txt = val ? "Presente" : "Ausente";
-            return `<span class="historico-tag ${cls}">${nome}: ${txt}</span>`;
-        }).join("");
+    msgErro.style.display = "none";
 
-        return `
-            <div class="historico-item">
-              <div class="historico-header">
-                <span class="historico-id">Triagem #${entry.triagem_id}</span>
-                <span class="historico-date">${date}</span>
-              </div>
-              <div class="historico-score">${positivos} / ${total} sintomas presentes</div>
-              <div class="historico-dados">${tags}</div>
-            </div>`;
-    }).join("");
+    try {
+        // Faz o GET enviando a inscrição pela URL (O getData já injeta o Token de Acesso do médico)
+        const resposta = await getData(`php/buscar_paciente_triagem.php?inscricao=${encodeURIComponent(valor)}`);
+
+        if (resposta.status === 'sucesso') {
+            // Exibe os dados retornados do banco na tela
+            document.getElementById("nomePacienteConfirmado").innerText = resposta.dados.nome_completo;
+            document.getElementById("cpfPacienteConfirmado").innerText = resposta.dados.cpf;
+            
+            containerDados.style.display = "block";
+            
+            // Libera o botão de avançar para o Quiz
+            numeroInscricaoPacienteAtual = valor; 
+            btnAvancar.disabled = false;
+            btnAvancar.style.opacity = "1";
+            btnAvancar.style.cursor = "pointer";
+        } else {
+            // Caso o paciente não exista ou não pertença a este médico
+            containerDados.style.display = "none";
+            msgErro.innerText = resposta.mensagem;
+            msgErro.style.display = "block";
+            btnAvancar.disabled = true;
+            btnAvancar.style.opacity = "0.5";
+            btnAvancar.style.cursor = "not-allowed";
+        }
+    } catch (erro) {
+        console.error("Erro ao verificar paciente:", erro);
+        msgErro.innerText = "Erro de conexão ao validar o paciente.";
+        msgErro.style.display = "block";
+    }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await verificarSessao()
-    const btnIniciar = document.querySelector(".homeStartBtn");
-    if (btnIniciar) {
-        btnIniciar.addEventListener("click", startQuiz);
-    }
-});
+// Reseta o estado visual da tela de busca
+function resetarTelaBusca() {
+    document.getElementById("numero_inscricao_triagem").value = "";
+    document.getElementById("dadosPacienteTriagem").style.display = "none";
+    document.getElementById("msgErroIdentificacao").style.display = "none";
+    
+    const btnAvancar = document.getElementById("btnAvancarParaQuiz");
+    btnAvancar.disabled = true;
+    btnAvancar.style.opacity = "0.5";
+    btnAvancar.style.cursor = "not-allowed";
+}
 
 async function startQuiz() {
     questions = await getDados("data/questions.json");
     perguntaAtual = 0;
     answers = {};
-    mostraTab("tab-quiz");
+    
+    window.mostraTab("tab-quiz");
     initQuizUI();
     carregarPergunta();
 }
 
-// Inicializa a UI do quiz em uma única iteração (lista de sintomas + hex-dots)
 function initQuizUI() {
     const list = document.getElementById("listaSintomas");
     const hexa = document.getElementById("hexaProgresso");
@@ -91,17 +129,18 @@ function initQuizUI() {
     if (counter) counter.textContent = `0 / ${questions.length}`;
 }
 
-// Atualiza lista + hex-dots em uma única passada
 function updateProgressUI() {
-    questions.forEach((question, index) => {
+    questions.forEach((_, index) => {
         const item = document.getElementById(`itemSintoma-${index}`);
         const dot = document.getElementById(`hex-dot-${index}`);
 
         if (item) {
             item.classList.remove("active", "done");
             if (index < perguntaAtual) item.classList.add("done");
-            if (index === perguntaAtual) item.classList.add("active");
-            if (index === perguntaAtual) item.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            if (index === perguntaAtual) {
+                item.classList.add("active");
+                item.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            }
         }
 
         if (dot) {
@@ -115,34 +154,29 @@ function updateProgressUI() {
     if (counter) counter.textContent = `${Math.min(perguntaAtual, questions.length)} / ${questions.length}`;
 }
 
-function setProgresso(percent) {
-    const progressoFill = document.getElementById("progressoFill");
-    if (progressoFill) progressoFill.style.width = `${percent}%`;
-}
-
 function carregarPergunta() {
     const question = questions[perguntaAtual];
     if (!question) return;
 
-    const noQuestao = document.getElementById("no-Questao");
-    const tagSintoma = document.getElementById("tagSintoma");
-    const questionText = document.getElementById("question-text");
-    const questionDesc = document.getElementById("question-desc");
-    const optionsContainer = document.getElementById("options-container");
-    if (noQuestao) noQuestao.textContent = `Sintoma ${perguntaAtual + 1} de ${questions.length}`;
-    if (tagSintoma) tagSintoma.textContent = question.symptom;
-    if (questionText) questionText.textContent = question.q;
-    if (questionDesc) questionDesc.textContent = question.desc;
-    setProgresso((perguntaAtual / questions.length) * 100);
+    document.getElementById("no-Questao").textContent = `Sintoma ${perguntaAtual + 1} de ${questions.length}`;
+    document.getElementById("tagSintoma").textContent = question.symptom;
+    document.getElementById("question-text").textContent = question.q;
+    document.getElementById("question-desc").textContent = question.desc;
+    
+    const percent = (perguntaAtual / questions.length) * 100;
+    const progressoFill = document.getElementById("progressoFill");
+    if (progressoFill) progressoFill.style.width = `${percent}%`;
+    
     updateProgressUI();
 
     const card = document.getElementById("quiz-question-card");
     if (card) {
         card.classList.remove("animarPergunta");
-        void card.offsetWidth;
+        void card.offsetWidth; // Força reflow do layout para reiniciar animação CSS
         card.classList.add("animarPergunta");
     }
 
+    const optionsContainer = document.getElementById("options-container");
     if (!optionsContainer) return;
     optionsContainer.innerHTML = "";
 
@@ -170,24 +204,67 @@ function carregarPergunta() {
 }
 
 async function finishQuiz() {
-    setProgresso(100);
+    const progressoFill = document.getElementById("progressoFill");
+    if (progressoFill) progressoFill.style.width = "100%";
     updateProgressUI();
 
+    // DRY: Enviando o número de inscrição capturado na aba intermediária
     const dadosForBackend = {
+        numero_inscricao: numeroInscricaoPacienteAtual,
         timestamp: new Date().toISOString(),
         triagem_id: Math.floor(Math.random() * 100000),
         dados: answers
     };
 
     try {
-        // Agora você usa a função genérica postData
         const result = await postData("php/quiz.php", dadosForBackend);
+        
+        historico.unshift(dadosForBackend);
+        renderHistorico();
 
-        addToHistorico(dadosForBackend);
-        alert(result.mensagem || "Triagem enviada com sucesso.");
-        mostraTab("tab-home");
+        alert(result.mensagem || "Triagem gravada com sucesso.");
+        
+        // Limpa o formulário de inscrição para a próxima consulta
+        const inputInscricao = document.getElementById("numero_inscricao_triagem");
+        if (inputInscricao) inputInscricao.value = "";
+        
+        window.mostraTab("tab-home");
     } catch (error) {
         console.error("Falha ao enviar triagem:", error);
-        alert("Não foi possível enviar a triagem. Tente novamente.");
+        alert("Erro na comunicação com o servidor ao salvar triagem.");
     }
+}
+
+function renderHistorico() {
+    const list = document.getElementById("historico-list");
+    if (!list) return;
+
+    if (historico.length === 0) {
+        list.innerHTML = '<p class="historico-vazio">Nenhuma triagem realizada nesta sessão.</p>';
+        return;
+    }
+
+    list.innerHTML = historico.map(entry => {
+        const date = new Date(entry.timestamp).toLocaleString("pt-BR");
+        const positivos = Object.values(entry.dados).filter(v => v === 1).length;
+        const total = Object.keys(entry.dados).length;
+        
+        const tags = Object.entries(entry.dados).map(([id, val]) => {
+            const question = questions.find(q => q.id === id);
+            const nome = question ? question.symptom : id;
+            const cls = val ? "tag-presente" : "tag-ausente";
+            const txt = val ? "Presente" : "Ausente";
+            return `<span class="historico-tag ${cls}">${nome}: ${txt}</span>`;
+        }).join("");
+
+        return `
+            <div class="historico-item">
+              <div class="historico-header">
+                <span class="historico-id">Triagem #${entry.triagem_id} (Paciente: ${entry.numero_inscricao})</span>
+                <span class="historico-date">${date}</span>
+              </div>
+              <div class="historico-score">${positivos} / ${total} sintomas presentes</div>
+              <div class="historico-dados">${tags}</div>
+            </div>`;
+    }).join("");
 }

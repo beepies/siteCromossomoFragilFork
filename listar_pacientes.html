@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meus Pacientes</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .mensagem-vazia { text-align: center; color: #666; font-style: italic; padding: 20px; }
+    </style>
+    <script type="module" src="JS/listar_pacientes.js" defer></script>
+</head>
+<body>
+
+    <h2>Meus Pacientes</h2>
+    <p>Abaixo estão os pacientes sob sua responsabilidade atual.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nº Inscrição</th>
+                <th>Nome Completo</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabelaPacientes">
+            </tbody>
+    </table>
+
+    <div id="mensagemStatus"></div>
+
+</body>
+</html>
