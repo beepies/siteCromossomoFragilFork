@@ -6,6 +6,14 @@ $env = carregarEnv();
 $conn = conectarBanco($env);
 $dados = receberDados();
 
+$token = getallheaders()['Authorization'] ?? '';
+if (empty($token)) responder('erro', 'Acesso negado: Token não fornecido.');
+$id_medico = buscarPorCampo($conn, 'profissional_saude', 'id_profissional', 'token', $token);
+if (!$id_medico) responder('erro', 'Acesso negado: Sessão inválida ou expirada.');
+
+$nivel = buscarPorCampo($conn, 'profissional_saude', 'nivel', 'token', $token);
+if ($nivel < 1) responder('erro', 'Sem permissão para cadastrar dependentes.');
+
 // Extração e sanitização das variáveis
 $numero_inscricao = trim($dados['numero_inscricao'] ?? '');
 $nome_completo = trim($dados['nome_completo'] ?? '');

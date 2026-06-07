@@ -53,6 +53,11 @@ if ($id_profissional_atual === null) {
     responder('erro', "Profissional não encontrado com CRM: $registro_profissional_atual");
 }
 
+$nivel = buscarPorCampo($conn, 'profissional_saude', 'nivel', 'id_profissional', $id_profissional);
+if ($nivel < 1) {
+    responder('erro', 'Sem permissão para cadastrar pacientes!!!');
+}
+
 // INSERT do paciente
 $sql = "INSERT INTO paciente_titular 
         (numero_inscricao, nome_completo, cpf, data_nascimento, sexo, email, telefone, endereco, id_profissional, id_profissional_atual) 

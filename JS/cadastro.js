@@ -17,5 +17,8 @@ formulario.addEventListener('submit', async function(event) {
 
     const resposta = await resultado('php/cadastro.php', dados, formulario);
     alert(resposta.mensagem || resposta);
+
+    window.location.href = 'login.html'; // redireciona para login após cadastro
+    // removível se necessário
 });
 

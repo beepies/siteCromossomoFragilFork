@@ -21,7 +21,7 @@ if (!$idMedicoLogado) {
 }
 
 // 3. Consulta estruturada para trazer apenas os pacientes vinculados ao ID do médico
-$sql = "SELECT numero_inscricao, nome_completo, cpf, telefone 
+$sql = "SELECT numero_inscricao, nome_completo, cpf, telefone, data_nascimento
         FROM paciente_titular 
         WHERE id_profissional_atual = ? 
         ORDER BY nome_completo ASC";

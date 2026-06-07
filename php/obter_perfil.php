@@ -16,7 +16,7 @@ if (empty($token)) {
 }
 
 // 2. Prepara a query para buscar os dados baseados no token
-$sql = "SELECT id_profissional, nome_completo, registro_profissional FROM profissional_saude WHERE token = ?";
+$sql = "SELECT id_profissional, nome_completo, registro_profissional, especialidade, instituicao, nivel FROM profissional_saude WHERE token = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {

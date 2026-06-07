@@ -1,4 +1,3 @@
-// Removemos todos os fallbacks antigos e lógicas duplicadas de quiz
 
 // Navegação do painel - Disponibilizado globalmente
 window.mostraTab = function(tabId) {
@@ -23,6 +22,17 @@ window.addEventListener("click", (e) => {
         if (dropdown) dropdown.classList.remove("active");
     }
 });
+
+// Logout: invalida o token no banco e limpa os dados locais
+async function fazerLogout() {
+    await fetch('php/logout.php', {
+        method: 'POST',
+        headers: { 'Authorization': localStorage.getItem('token_acesso') }
+    });
+    localStorage.removeItem('token_acesso');
+    sessionStorage.removeItem('usuario');
+    window.location.href = 'login.html';
+}
 
 // login fallback removed: preserve the page when the login block is absent
 /*const loginForm = document.getElementById("loginForm");

@@ -1,5 +1,30 @@
 import { getDados, postData, getData, verificarSessao } from "./utils.js"; // Importado getData
+const usuario = JSON.parse(sessionStorage.getItem('usuario'));
 
+document.querySelector('.triggerPerfil span').textContent = usuario.nome_completo;
+const iniciais = usuario.nome_completo
+    .split(' ')
+    .slice(0, 2)
+    .map(n => n[0])
+    .join('');
+
+const avatar = document.querySelector('.triggerPerfil img');
+avatar.style.display = 'none';
+
+const div = document.createElement('div');
+div.textContent = iniciais;
+div.style.cssText = 'width:36px;height:36px;background:var(--primaria);color:white;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:0.85rem;font-family:Syne,sans-serif;flex-shrink:0;';
+avatar.parentNode.insertBefore(div, avatar);
+document.querySelector('#tab-infos h2').textContent = usuario.nome_completo;
+document.querySelector('#tab-infos .badge').textContent = usuario.especialidade;
+document.querySelectorAll('#tab-infos .info-item')[0].innerHTML = '<strong>Registro:</strong> ' + usuario.registro_profissional;
+document.querySelectorAll('#tab-infos .info-item')[1].innerHTML = '<strong>Especialidade:</strong> ' + usuario.especialidade;
+document.querySelectorAll('#tab-infos .info-item')[2].innerHTML = '<strong>Instituição:</strong> ' + usuario.instituicao;
+const nivelUsuario = usuario.nivel ?? 0;
+if (nivelUsuario < 2) {
+    document.querySelectorAll('.dropdown a[href="cadastro_dependente.html"]').forEach(el => el.style.display = 'none');
+    const linkGerenciar = document.getElementById('linkGerenciarUsuarios');
+if (linkGerenciar) linkGerenciar.style.display = 'none';}
 let questions = [];
 const historico = [];
 let perguntaAtual = 0;
@@ -8,6 +33,13 @@ let numeroInscricaoPacienteAtual = "";
 
 document.addEventListener("DOMContentLoaded", async () => {
     await verificarSessao();
+
+    if (nivelUsuario < 1) {
+    alert("Seu cadastro ainda não foi aprovado pelo administrador.");
+    window.location.href = 'login.html';
+    return;
+}
+    
     
     // Configura o botão da Home
     const btnIniciar = document.querySelector(".homeStartBtn");
@@ -16,8 +48,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Reseta a tela de busca ao entrar nela
             resetarTelaBusca();
             window.mostraTab("tab-identificacao");
+            
         });
     }
+
+    const btnHistorico =
+    document.getElementById("btnBuscarHistorico");
+
+
+if (btnHistorico) {
+    btnHistorico.addEventListener(
+        "click",
+        carregarHistoricoPaciente
+    );}
 
     // Configura o botão de "Verificar"
     const btnBuscar = document.getElementById("btnBuscarPacienteTriagem");
@@ -31,6 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         btnAvancar.addEventListener("click", startQuiz);
     }
 });
+
 
 // Função para buscar o paciente no banco via PHP antes do Quiz
 async function buscarPacienteParaTriagem() {
@@ -80,6 +124,7 @@ async function buscarPacienteParaTriagem() {
         msgErro.style.display = "block";
     }
 }
+
 
 // Reseta o estado visual da tela de busca
 function resetarTelaBusca() {
@@ -235,6 +280,91 @@ async function finishQuiz() {
     }
 }
 
+//TESTE
+async function carregarHistoricoPaciente() {
+const inscricao = document.getElementById("historico-inscricao").value.trim();
+const nome = document.getElementById("historico-nome").value.trim();
+const data = document.getElementById("historico-data").value;
+
+if (!inscricao && !nome) {
+    alert("Informe o número de inscrição ou nome do paciente.");
+    return;
+}
+
+try {
+    const url = `php/historico_avaliacoes.php?inscricao=${encodeURIComponent(inscricao)}&nome=${encodeURIComponent(nome)}${data ? '&data=' + data : ''}`;
+    const resposta = await getData(url);
+        console.log(resposta);
+        if (resposta.status !== "sucesso") {
+            alert(resposta.mensagem);
+            return;
+       }
+
+        const historico =
+            resposta.dados?.historico || resposta.historico || [];
+
+        renderHistoricoBanco(historico);
+    } catch (erro) {
+        console.error(erro);
+        alert("Erro ao carregar histórico.");
+    }}
+// teeeeste
+function renderHistoricoBanco(historico) {
+    const container =
+        document.getElementById("historico-list");
+    if (!historico.length) {
+        container.innerHTML = `
+            <p class="historico-vazio">
+                Nenhuma avaliação encontrada.
+            </p>
+        `;
+        return;}
+
+    container.innerHTML = historico.map(item => {
+        const sintomasPresentes =
+            item.sintomas
+                .filter(s => s.presente)
+                .map(s => s.nome)
+                .join(", ");
+
+        return `
+            <div class="historico-item">
+                <div class="historico-header">
+                <span class="historico-id">
+                Avaliação #${item.id_avaliacao}  ${item.nome_completo}
+                    </span>
+                    <span class="historico-date">
+                     ${new Date(item.data_avaliacao.replace(' ', 'T') + '+02:00').toLocaleString("pt-BR")}
+                    </span>
+
+                </div>
+                <div class="historico-score">
+                    Score: ${item.score ?? 0}
+                </div>
+
+                <div class="historico-score">
+                    Classificação:
+                    ${item.classificacao_risco ?? "Não calculada"}
+                </div>
+                <div class="historico-dados">
+                    <strong>
+                        Sintomas presentes:
+                    </strong>
+                    <br>
+                    ${sintomasPresentes || "Nenhum"}
+
+                </div>
+                <div style="margin-top: 12px; text-align: right;">
+                 <button onclick="window.open('imprimir_avaliacao.html?id=${item.id_avaliacao}', '_blank')"  class="socialBtn" style="width:auto; padding: 8px 20px;">
+              Imprimir
+             </button>
+                </div>
+            </div>
+    `;
+
+    }).join("");
+}
+
 function renderHistorico() {
     const list = document.getElementById("historico-list");
     if (!list) return;
@@ -267,4 +397,7 @@ function renderHistorico() {
               <div class="historico-dados">${tags}</div>
             </div>`;
     }).join("");
+
+
+
 }

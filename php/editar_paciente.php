@@ -14,6 +14,10 @@ if (empty($token)) responder('erro', 'Acesso negado: Token não fornecido.');
 $idMedicoLogado = buscarPorCampo($conn, 'profissional_saude', 'id_profissional', 'token', $token);
 if (!$idMedicoLogado) responder('erro', 'Acesso negado: Sessão inválida ou expirada.');
 
+$nivel = buscarPorCampo($conn, 'profissional_saude', 'nivel', 'token', $token);
+if ($nivel < 1) { responder('erro', 'Sem permissão para editar pacientes!!!');
+}
+
 // 2. DRY nas validações obrigatórias locais do PHP
 $obrigatorios = ['numero_inscricao', 'nome_completo', 'cpf', 'data_nascimento', 'sexo', 'novo_registro_profissional_atual'];
 if (!validarCamposObrigatorios($dados, $obrigatorios)) {

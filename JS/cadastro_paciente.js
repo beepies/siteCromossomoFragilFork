@@ -42,23 +42,6 @@ function validarCPF(cpf) {
     return cpfLimpo.length === 11;
 }
 
-// Função para validar data de nascimento (maioridade)
-function validarDataNascimento(data) {
-    const dataNasc = new Date(data);
-    const hoje = new Date();
-    const idade = hoje.getFullYear() - dataNasc.getFullYear();
-    
-    const mesJa = hoje.getMonth() > dataNasc.getMonth() || 
-                  (hoje.getMonth() === dataNasc.getMonth() && hoje.getDate() >= dataNasc.getDate());
-    
-    const idadeReal = mesJa ? idade : idade - 1;
-    
-    if (idadeReal < 18) {
-        return { valido: false, Valley: 'O paciente titular deve ser maior de 18 anos.' };
-    }
-    return { valido: true };
-}
-
 // Validações estruturais do formulário
 function validarFormulario(dados) {
     const camposObrigatorios = [
@@ -79,11 +62,6 @@ function validarFormulario(dados) {
     
     if (!validarCPF(dados.cpf)) {
         return { valido: false, mensagem: 'CPF inválido (deve conter 11 dígitos).' };
-    }
-    
-    const validacaoData = validarDataNascimento(dados.data_nascimento);
-    if (!validacaoData.valido) {
-        return { valido: false, mensagem: validacaoData.Valley };
     }
     
     return { valido: true };

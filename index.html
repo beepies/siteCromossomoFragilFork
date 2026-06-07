@@ -4,40 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Usuário</title>
+    <link rel="stylesheet" href="styles/cadastro.css">
     <script type="module" src="JS/cadastro.js" defer></script>
 </head>
 
 <body>
 
-    <h2>Criar Nova Conta</h2>
+    <div class="hex-bg"></div>
+    <div class="hex-deco hex-deco-1"></div>
+    <div class="hex-deco hex-deco-2"></div>
+    <div class="hex-deco hex-deco-3"></div>
+    <div class="hex-deco hex-deco-4"></div>
 
-    <!-- O atributo 'action' define para onde os dados serão enviados -->
-    <!-- O atributo 'method' define o método HTTP (POST é o ideal para cadastros) -->
-    <form  id="meuFormulario">
+    <div class="cadastro-card">
 
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" placeholder="Digite seu nome" required>
-        <br>
-        <label for="Registro_profissional">Registro profissional:</label>
-        <input type="text" id="Registro_profissional" placeholder="Digite seu registro profissional" required>
-        <br>
-        <label for="Especialidade">Especialidade:</label>
-        <input type="text" id="Especialidade" placeholder="Digite sua especialidade" required>
-        <br>
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" placeholder="seu@email.com" required>
-        <br>
-        <label for="telefone">Telefone:</label>
-        <input type="tel" id="telefone" placeholder="Digite seu telefone" required>
-        <br>
-        <label for="Instituicao">Instituição:</label>
-        <input type="text" id="Instituicao" placeholder="Digite sua instituição" required>
-        <br>
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" placeholder="Digite sua senha" required>
-        <br>
-        <button type="submit">Enviar Dados</button>
-    </form>
+        <h2>Criar Nova Conta</h2>
+
+        <!-- O atributo 'action' define para onde os dados serão enviados -->
+        <!-- O atributo 'method' define o método HTTP (POST é o ideal para cadastros) -->
+        <form id="meuFormulario">
+
+            <div class="inputGrupo">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" placeholder="Digite seu nome" required>
+            </div>
+            <div class="inputGrupo">
+                <label for="Registro_profissional">Registro profissional:</label>
+                <input type="text" id="Registro_profissional" placeholder="Digite seu registro profissional" required>
+            </div>
+            <div class="inputGrupo">
+                <label for="Especialidade">Especialidade:</label>
+                <input type="text" id="Especialidade" placeholder="Digite sua especialidade" required>
+            </div>
+            <div class="inputGrupo">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" placeholder="seu@email.com" required>
+            </div>
+            <div class="inputGrupo">
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" placeholder="Digite seu telefone" required>
+            </div>
+            <div class="inputGrupo">
+                <label for="Instituicao">Instituição:</label>
+                <input type="text" id="Instituicao" placeholder="Digite sua instituição" required>
+            </div>
+            <div class="inputGrupo">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" placeholder="Digite sua senha" required>
+            </div>
+
+            <button type="submit" class="botaoCadastro">Enviar Dados</button>
+        </form>
+        <p class="linkLogin">Já tem cadastro? <a href="login.html">Faça login!</a></p>
+
+    </div>
 
 </body>
 

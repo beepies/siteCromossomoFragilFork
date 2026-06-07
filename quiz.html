@@ -29,14 +29,19 @@
       </div>
       <div class="user-menu">
         <div class="triggerPerfil" onclick="abrirDropdown()">
-          <img src="https://ui-avatars.com/api/?name=Dr+Lorem&background=10b981&color=fff" alt="Avatar">
-          <span>Dr. Lorem Ipsum</span>
+          <img src="" alt="Avatar">
+          <span>Dr. </span>
         </div>
         <div class="dropdown" id="userDropdown">
           <a href="#" onclick="mostraTab('tab-infos')">Informações do médico</a>
           <a href="#" onclick="mostraTab('tab-historico')">Histórico de consultas</a>
+          <a href="cadastro_paciente.html">Cadastrar paciente</a>
+          <a href="editar_paciente.html">Editar paciente</a>
+                    <a href="listar_pacientes.html">Listar pacientes</a>
+          <a href="cadastro_dependente.html">Cadastrar dependente</a>
+          <a href="gerenciar_usuarios.html" id="linkGerenciarUsuarios">Gerenciar usuários</a>
           <hr>
-          <a href="#" onclick="location.reload()" style="color: #ff6b6b;">Sair</a>
+          <a href="#" onclick="fazerLogout();" style="color: #ff6b6b;">Sair</a>
         </div>
       </div>
     </header>
@@ -46,10 +51,9 @@
 
         <section id="tab-home" class="tab-content">
           <div class="quiz-card">
-            <div class="badge">Lorem Ipsum</div>
+            <div class="badge">QUIZ</div>
             <h2>Triagem: Síndrome de X Frágil</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam quis nostrud.</p>
+            <p>Realize aqui o quiz de triagem dos sintomas do paciente.</p>
             <button class="botaoLogin homeStartBtn" onclick="mostraTab('tab-identificacao')">Iniciar avaliação</button>
           </div>
         </section>
@@ -83,9 +87,9 @@
               style="display: none; background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 16px; border-radius: 4px; margin-bottom: 24px; text-align: left;">
               <h4 style="margin: 0 0 8px 0; color: #065f46;">✔ Paciente Confirmado</h4>
               <p style="margin: 4px 0; font-size: 0.95rem;"><strong>Nome:</strong> <span
-                  id="nomePacienteConfirmado">—</span></p>
+                  id="nomePacienteConfirmado">-</span></p>
               <p style="margin: 4px 0; font-size: 0.95rem;"><strong>CPF:</strong> <span
-                  id="cpfPacienteConfirmado">—</span></p>
+                  id="cpfPacienteConfirmado">-</span></p>
             </div>
 
             <div style="display: flex; gap: 12px; justify-content: flex-end;">
@@ -119,7 +123,7 @@
                   <div id="progressoFill"></div>
                 </div>
               </div>
-              <div class="tagSintoma" id="tagSintoma">—</div>
+              <div class="tagSintoma" id="tagSintoma"></div>
               <h2 id="question-text" class="question-title">Carregando...</h2>
               <p id="question-desc" class="question-desc">Lorem ipsum dolor sit amet.</p>
               <div class="quiz-options" id="options-container"></div>
@@ -150,18 +154,82 @@
           </div>
         </section>
 
-        <section id="tab-historico" class="tab-content" style="display: none;">
-          <div class="quiz-card quiz-card--wide" style="text-align: left;">
-            <h2>Histórico de consultas</h2>
-            <p style="color: var(--text-light); font-size: 0.88rem; margin-top: 6px; margin-bottom: 24px;">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-            <div id="historico-list">
-              <p class="historico-vazio">Nenhuma triagem realizada nesta sessão.</p>
-            </div>
-          </div>
-        </section>
-      </div>
+<section id="tab-historico" class="tab-content" style="display: none;">
+
+  <div class="quiz-card quiz-card--wide" style="text-align:left;">
+
+    <div class="badge">
+      HISTÓRICO
+    </div>
+
+    <h2>Histórico de Avaliações</h2>
+
+    <p style="
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-top: 6px;
+      margin-bottom: 20px;
+    ">
+      Consulte todas as avaliações já realizadas para um paciente.
+    </p>
+
+    <div style="
+      display:flex;
+      gap:10px;
+      margin-bottom:20px;
+    ">
+
+      <input
+        type="text"
+        id="historico-inscricao"
+        placeholder="Número de inscrição do paciente"
+        style="
+          flex:1;
+          padding:12px;
+          border:1px solid #d1d5db;
+          border-radius:8px;
+          font-size:1rem;
+        "
+      >
+
+      <input type="date" id="historico-data" style="padding:12px; border:1px solid #d1d5db; border-radius:8px; font-size:1rem;">
+      <input type="text" id="historico-nome" placeholder="Ou buscar por nome" style="flex:1; padding:12px; border:1px solid #d1d5db; border-radius:8px; font-size:1rem;">
+      <button
+        type="button"
+        id="btnBuscarHistorico"
+        class="botaoLogin"
+        style="
+          width:auto;
+          padding:0 24px;
+          margin:0;
+        "
+      >
+        Buscar
+      </button>
+
+    </div>
+
+    <div id="historico-list">
+
+      <p class="historico-vazio">
+        Informe um número de inscrição para visualizar o histórico.
+      </p>
+
+    </div>
+
+    <button
+      class="socialBtn"
+      style="margin-top:20px;"
+      onclick="mostraTab('tab-home')"
+    >
+      Voltar
+    </button>
+
+  </div>
+</section>
+
+  </div>
+</section>
 
       <aside class="info-sidebar">
         <h3>Lorem Ipsum</h3>

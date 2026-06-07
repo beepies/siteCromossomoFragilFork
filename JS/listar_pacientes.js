@@ -1,7 +1,4 @@
-// Importa as funções que você já criou e a nova getData
 import { verificarSessao, getData } from './utils.js';
-
-// Executa a sua trava de segurança
 verificarSessao();
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -28,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>${paciente.numero_inscricao}</td>
                     <td>${paciente.nome_completo}</td>
                     <td>${paciente.cpf}</td>
+                    <td>${paciente.data_nascimento}</td>
                     <td>${paciente.telefone || 'Não informado'}</td>
                     <td>
                         <a href="editar_paciente.html?inscricao=${paciente.numero_inscricao}">Editar</a>

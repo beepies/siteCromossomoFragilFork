@@ -1,74 +1,74 @@
 [
     {
         "id": "atraso_fala",
-        "symptom": "Pintoso na fala",
-        "q": "Lorem ipsum dolor sit amet consectetur adipiscing elit?",
-        "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        "symptom": "Atraso na fala",
+        "q": "O paciente apresenta/apresentou atraso no desenvolvimento da fala ou linguagem para a idade?",
+        "desc": "Avaliar se o paciente demora a começar a falar as primeiras palavras ou formar frases completas em comparação com os marcos do desenvolvimento esperado."
     },
     {
         "id": "dif_aprendizagem",
         "symptom": "Dificuldades de aprendizagem",
-        "q": "Sed do eiusmod tempor incididunt ut labore dolore?",
-        "desc": "Ut labore et dolore magna aliqua enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip."
+        "q": "O paciente demonstra dificuldades acentuadas no aprendizado escolar ou retenção de conteúdo?",
+        "desc": "Observar o rendimento em atividades acadêmicas, como alfabetização, raciocínio lógico e assimilação de novas instruções."
     },
     {
         "id": "deficit_atencao",
         "symptom": "Déficit de atenção",
-        "q": "Exercitation ullamco laboris nisi ut aliquip ex commodo?",
-        "desc": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+        "q": "O paciente tem dificuldade crônica em manter o foco e se concentrar em tarefas?",
+        "desc": "Verificar se o indivíduo se distrai facilmente com estímulos externos e esquece instruções com frequência."
     },
     {
         "id": "def_intelectual",
         "symptom": "Deficiência intelectual",
-        "q": "Duis aute irure dolor reprehenderit voluptate velit cillum?",
-        "desc": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est."
+        "q": "Há sinais de limitações no funcionamento intelectual e nas habilidades adaptativas?",
+        "desc": "Avaliar o desempenho em habilidades conceituais, sociais e práticas do dia a dia, bem como o raciocínio e a resolução de problemas."
     },
     {
         "id": "hiperatividade",
         "symptom": "Hiperatividade",
-        "q": "Excepteur sint occaecat cupidatat non proident deserunt?",
-        "desc": "Deserunt mollit anim id est laborum sed perspiciatis unde omnis iste natus error sit voluptatem accusantium."
+        "q": "O paciente manifesta comportamento excessivamente agitado, inquieto ou impulsivo?",
+        "desc": "Observar a incapacidade de permanecer sentado, movimentos constantes de mãos e pés, ou o hábito de agir sem pensar nas consequências."
     },
     {
         "id": "comp_agressivo",
         "symptom": "Comportamento agressivo",
-        "q": "Natus error sit voluptatem accusantium doloremque laudantium?",
-        "desc": "Totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta."
+        "q": "O paciente apresenta episódios frequentes de agressividade física ou verbal?",
+        "desc": "Verificar a presença de crises de raiva desproporcionais, autoagressão ou comportamentos hostis direcionados a terceiros e objetos."
     },
     {
         "id": "contato_visual",
         "symptom": "Evita contato visual",
-        "q": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur?",
-        "desc": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia."
+        "q": "O paciente evita ou tem dificuldade em manter o contato visual direto durante a interação?",
+        "desc": "Avaliar se o indivíduo desvia os olhos quando abordado."
     },
     {
         "id": "contato_fisico",
         "symptom": "Evita contato físico",
-        "q": "Ut enim ad minima veniam quis nostrum exercitationem?",
-        "desc": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur."
+        "q": "Existe aversão e desconforto ao toque e contato físico?",
+        "desc": "Observar reações negativas a abraços, toques no ombro, cumprimentos ou qualquer proximidade corporal."
     },
     {
         "id": "mov_repetitivos",
         "symptom": "Movimentos repetitivos e rítmicos",
-        "q": "At vero eos et accusamus et iusto odio dignissimos?",
-        "desc": "Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime."
+        "q": "O paciente realiza movimentos estereotipados ou repetitivos de forma persistente?",
+        "desc": "Identificar comportamentos como o 'flapping' (balançar as mãos), balançar o corpo para frente e para trás, ou girar objetos sem uma função óbvia."
     },
     {
         "id": "hipermobilidade",
         "symptom": "Hipermobilidade articular",
-        "q": "Temporibus autem quibusdam et aut officiis debitis rerum?",
-        "desc": "Quas molestias excepturi sint occaecati cupiditate non provident similique sunt in culpa qui officia deserunt."
+        "q": "As articulações do paciente apresentam uma amplitude de movimento maior do que o normal?",
+        "desc": "Observar flexibilidade excessiva, facilidade em hiperextender os cotovelos e joelhos, ou flexionar os dedos além do ângulo comum."
     },
     {
         "id": "macroorquidia",
         "symptom": "Macroorquidia",
-        "q": "Itaque earum rerum hic tenetur sapiente delectus reiciendis?",
-        "desc": "Ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat omnis."
+        "q": "Há presença detectável ou diagnosticada de macroorquidia (aumento do volume testicular)?",
+        "desc": "Avaliar o aumento do volume testicular acima dos padrões de referência para a idade."
     },
     {
         "id": "face_orelhas",
         "symptom": "Face alongada / orelhas salientes",
-        "q": "Sed ut perspiciatis unde omnis iste natus error voluptatem?",
-        "desc": "Accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi."
+        "q": "O paciente apresenta traços faciais característicos, como o rosto alongado e orelhas proeminentes?",
+        "desc": "Avaliar a anatomia facial quanto à presença de testa proeminente, mandíbula alongada e orelhas maiores ou mais abertas que a média."
     }
 ]

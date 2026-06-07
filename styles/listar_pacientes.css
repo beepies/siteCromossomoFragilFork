@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+:root {
+--bg:#f0f4f8;
+--primaria: #10b981;
+--primaria-dark:#065f46;
+--secundaria:#34d399;
+--text: #1e293b;
+--text-light:  #64748b;
+--white:  #ffffff;
+--border: #dde5ef;
+--shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.12);
+--shadow-lg:  0 20px 50px -12px rgba(0, 0, 0, 0.18);}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: 'Figtree', sans-serif;
+min-height: 100vh;
+background-color: var(--bg);
+display: flex;
+justify-content: center;
+align-items: flex-start;
+color: var(--text);
+padding: 40px 16px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Syne', sans-serif;
+}
+
+.hex-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='127' viewBox='0 0 110 127'%3E%3Cpolygon points='55,4 107,32 107,95 55,123 3,95 3,32' fill='none' stroke='%2310b981' stroke-width='1.4'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='55' height='64' viewBox='0 0 55 64'%3E%3Cpolygon points='27.5,2 53,16 53,48 27.5,62 2,48 2,16' fill='none' stroke='%2310b981' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 110px 127px, 55px 64px;
+  background-position: 0 0, 55px 32px;
+  opacity: 0.09;}
+
+.hex-deco {
+  position: fixed;
+  z-index: -1;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: var(--primaria);
+  pointer-events: none;
+}
+.hex-deco-1 { width: 500px; height: 500px; top: -180px; right: -160px; opacity: 0.05; }
+.hex-deco-2 { width: 320px; height: 320px; bottom: -110px; left: -110px; opacity: 0.04; background: var(--primaria-dark); }
+.hex-deco-3 { width: 180px; height: 180px; top: 42%; left: 2%; opacity: 0.03; }
+.hex-deco-4 { width: 120px; height: 120px; top: 15%; right: 6%; opacity: 0.035; background: var(--primaria-dark); }
+
+.lista-card {
+  width: 100%;
+  max-width: 900px;
+  background: var(--white);
+  border-radius: 24px;
+  padding: 44px 40px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;}
+
+.lista-card::before {
+  content: '';
+  position: absolute;
+  top: -50px; left: -50px;
+  width: 140px; height: 140px;
+  background: var(--primaria-dark);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  opacity: 0.04;
+  pointer-events: none;}
+.lista-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: var(--primaria);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.areaTitulo {
+  margin-bottom: 24px;}
+
+.areaTitulo h2 {
+  font-size: 1.35rem;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.areaTitulo p {
+  color: var(--text-light);
+  font-size: 0.88rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+thead tr {
+  border-bottom: 2px solid var(--border);
+}
+
+th {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-light);
+  padding: 10px 14px;
+  text-align: left;}
+
+td {
+  padding: 14px;
+  font-size: 0.9rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+td a {
+  color: var(--primaria);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+td a:hover {
+  color: var(--primaria-dark);
+  text-decoration: underline;
+}
+
+.mensagem-vazia {
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+  padding: 28px 0;
+  font-size: 0.9rem;}
+.botaoVoltar {
+  width: 100%;
+  margin-top: 24px;
+  padding: 11px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.botaoVoltar:hover { color: var(--text); background: #f1f5f9; }
+
+@media (max-width: 600px) {
+  .lista-card { padding: 32px 16px; }
+  th, td { padding: 10px 8px; font-size: 0.8rem; }}

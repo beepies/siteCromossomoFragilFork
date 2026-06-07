@@ -189,24 +189,6 @@ CREATE TABLE teste_genetico (
 );
 
 
--- Titular deve ser maior de 18 anos
-
-
-DELIMITER //
-
-CREATE TRIGGER verificar_idade_titular
-BEFORE INSERT ON paciente_titular
-FOR EACH ROW
-BEGIN
-
-    IF TIMESTAMPDIFF(YEAR, NEW.data_nascimento, CURDATE()) < 18 THEN
-
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Titular deve ser maior de 18 anos';
-
-    END IF;
-
-END //
 
 DELIMITER ;
 
@@ -364,3 +346,63 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- Remove a trava de validação dupla
+ALTER TABLE avaliacao_clinica DROP CHECK chk_paciente;
+
+-- Torna o id_paciente obrigatório (não aceita mais nulo)
+ALTER TABLE avaliacao_clinica MODIFY id_paciente INT NOT NULL;
+
+-- Inserindo os sintomas na tabela sintoma
+INSERT INTO sintoma (nome_sintoma) VALUES 
+('Atraso na fala'),
+('Dificuldades de aprendizagem'),
+('Déficit de atenção'),
+('Deficiência intelectual'),
+('Hiperatividade'),
+('Comportamento agressivo'),
+('Evita contato visual'),
+('Evita contato físico'),
+('Movimentos repetitivos e rítmicos'),
+('Hipermobilidade articular'),
+('Macroorquidia'),
+('Face alongada / orelhas salientes');
+
+
+-- Masculino
+INSERT INTO peso_sintoma (id_sintoma, sexo, peso) VALUES
+(1, 'Masculino', 0.14), -- Atraso na fala
+(2, 'Masculino', 0.18), -- Dificuldades de aprendizagem
+(3, 'Masculino', 0.17), -- Déficit de atenção
+(4, 'Masculino', 0.32), -- Deficiência intelectual
+(5, 'Masculino', 0.12), -- Hiperatividade
+(6, 'Masculino', 0.01), -- Comportamento agressivo
+(7, 'Masculino', 0.06), -- Evita contato visual
+(8, 'Masculino', 0.04), -- Evita contato físico
+(9, 'Masculino', 0.17), -- Movimentos repetitivos
+(10, 'Masculino', 0.19), -- Hipermobilidade articular
+(11, 'Masculino', 0.26), -- Macroorquidia
+(12, 'Masculino', 0.29); -- Face alongada / orelhas salientes
+
+-- Feminino
+INSERT INTO peso_sintoma (id_sintoma, sexo, peso) VALUES
+(1, 'Feminino', 0.01), -- Atraso na fala
+(2, 'Feminino', 0.28), -- Dificuldades de aprendizagem
+(3, 'Feminino', 0.12), -- Déficit de atenção
+(4, 'Feminino', 0.20), -- Deficiência intelectual
+(5, 'Feminino', 0.04), -- Hiperatividade
+(6, 'Feminino', 0.02), -- Comportamento agressivo
+(7, 'Feminino', 0.08), -- Evita contato visual
+(8, 'Feminino', 0.07), -- Evita contato físico
+(9, 'Feminino', 0.05), -- Movimentos repetitivos
+(10, 'Feminino', 0.04), -- Hipermobilidade articular
+(11, 'Feminino', 0.00), -- Macroorquidia
+(12, 'Feminino', 0.09); -- Face alongada / orelhas salientes
+
+
+-- Sistema de privileges, nivel 1, 2 e 3
+-- NOVO MÉDICO NIVEL 0
+ALTER TABLE profissional_saude ADD COLUMN nivel TINYINT NOT NULL DEFAULT 0;
+
+-- Muda o nível do primeiro profissional para adm
+UPDATE profissional_saude SET nivel = 2 WHERE id_profissional = 1;
