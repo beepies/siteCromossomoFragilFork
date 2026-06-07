@@ -35,9 +35,19 @@ try {
 
     // Dicionário dinâmico (mais versátil)
     $mapa = [
-        'atraso_fala' => 'Atraso na fala', 'dif_aprendizagem' => 'Dificuldades de aprendizagem',
-        // ... adicione todos aqui
-    ];
+    'atraso_fala'      => 'Atraso na fala',
+    'dif_aprendizagem' => 'Dificuldades de aprendizagem',
+    'deficit_atencao'  => 'Déficit de atenção',
+    'def_intelectual'  => 'Deficiência intelectual',
+    'hiperatividade'   => 'Hiperatividade',
+    'comp_agressivo'   => 'Comportamento agressivo',
+    'contato_visual'   => 'Evita contato visual',
+    'contato_fisico'   => 'Evita contato físico',
+    'mov_repetitivos'  => 'Movimentos repetitivos e rítmicos',
+    'hipermobilidade'  => 'Hipermobilidade articular',
+    'macroorquidia'    => 'Macroorquidia',
+    'face_orelhas'     => 'Face alongada / orelhas salientes',
+];
 
     foreach ($sintomas as $key => $presente) {
         $nome = $mapa[$key] ?? null;
