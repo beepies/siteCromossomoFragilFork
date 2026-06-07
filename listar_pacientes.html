@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meus Pacientes</title>
+    <link rel="stylesheet" href="styles/listar_pacientes.css">
+    <script type="module" src="JS/listar_pacientes.js" defer></script>
+</head>
+<body>
+
+    <div class="hex-bg"></div>
+    <div class="hex-deco hex-deco-1"></div>
+    <div class="hex-deco hex-deco-2"></div>
+    <div class="hex-deco hex-deco-3"></div>
+    <div class="hex-deco hex-deco-4"></div>
+
+    <div class="lista-card">
+
+        <div class="areaTitulo">
+            <h2>Meus Pacientes</h2>
+            <p>Abaixo estão os pacientes sob sua responsabilidade atual.</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nº Inscrição</th>
+                    <th>Nome Completo</th>
+                    <th>CPF</th>
+                    <th>Data de Nascimento</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabelaPacientes">
+            </tbody>
+        </table>
+
+        <div id="mensagemStatus"></div>
+
+        <button type="button" class="botaoVoltar" onclick="window.location.href='quiz.html'">Voltar</button>
+
+    </div>
+
+</body>
+</html>

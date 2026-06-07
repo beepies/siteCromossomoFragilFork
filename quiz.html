@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SXF - Triagem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles/style.css" />
+</head>
+
+<body>
+
+  <div class="hex-bg"></div>
+  <div class="hex-deco hex-deco-1"></div>
+  <div class="hex-deco hex-deco-2"></div>
+  <div class="hex-deco hex-deco-3"></div>
+  <div class="hex-deco hex-deco-4"></div>
+
+  <div class="container" id="dashboard-screen" style="display: flex;">
+    <header class="navbar">
+      <div class="logo-small">
+        <div class="logo-icon-s hexagono">✚</div>
+        <span>SXF</span>
+      </div>
+      <div class="user-menu">
+        <div class="triggerPerfil" onclick="abrirDropdown()">
+          <img src="" alt="Avatar">
+          <span>Dr. </span>
+        </div>
+        <div class="dropdown" id="userDropdown">
+          <a href="#" onclick="mostraTab('tab-infos')">Informações do médico</a>
+          <a href="#" onclick="mostraTab('tab-historico')">Histórico de consultas</a>
+          <a href="cadastro_paciente.html">Cadastrar paciente</a>
+          <a href="editar_paciente.html">Editar paciente</a>
+                    <a href="listar_pacientes.html">Listar pacientes</a>
+          <a href="cadastro_dependente.html">Cadastrar dependente</a>
+          <a href="gerenciar_usuarios.html" id="linkGerenciarUsuarios">Gerenciar usuários</a>
+          <hr>
+          <a href="#" onclick="fazerLogout();" style="color: #ff6b6b;">Sair</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard-content">
+      <div id="dynamic-content">
+
+        <section id="tab-home" class="tab-content">
+          <div class="quiz-card">
+            <div class="badge">QUIZ</div>
+            <h2>Triagem: Síndrome de X Frágil</h2>
+            <p>Realize aqui o quiz de triagem dos sintomas do paciente.</p>
+            <button class="botaoLogin homeStartBtn" onclick="mostraTab('tab-identificacao')">Iniciar avaliação</button>
+          </div>
+        </section>
+
+        <section id="tab-identificacao" class="tab-content" style="display: none;">
+          <div class="quiz-card">
+            <div class="badge">Identificação</div>
+            <h2>Identificação do Paciente</h2>
+            <p>Insira o número de inscrição do paciente titular para vincular esta triagem ao prontuário médico.</p>
+
+            <div style="margin: 24px 0; text-align: left;">
+              <label for="numero_inscricao_triagem"
+                style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-dark);">
+                Nº de Inscrição do Paciente
+              </label>
+
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="numero_inscricao_triagem" placeholder="Ex: TIT-2026-0001"
+                  style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: 'Figtree', sans-serif; font-size: 1rem;" />
+                <button type="button" id="btnBuscarPacienteTriagem" class="botaoLogin"
+                  style="margin: 0; width: auto; padding: 0 16px; background-color: #3b82f6;">
+                  🔍 Verificar
+                </button>
+              </div>
+
+              <div id="msgErroIdentificacao"
+                style="color: #ff6b6b; font-size: 0.88rem; margin-top: 8px; display: none;"></div>
+            </div>
+
+            <div id="dadosPacienteTriagem"
+              style="display: none; background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 16px; border-radius: 4px; margin-bottom: 24px; text-align: left;">
+              <h4 style="margin: 0 0 8px 0; color: #065f46;">✔ Paciente Confirmado</h4>
+              <p style="margin: 4px 0; font-size: 0.95rem;"><strong>Nome:</strong> <span
+                  id="nomePacienteConfirmado">-</span></p>
+              <p style="margin: 4px 0; font-size: 0.95rem;"><strong>CPF:</strong> <span
+                  id="cpfPacienteConfirmado">-</span></p>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+              <button class="sairBtn" style="margin: 0;" onclick="window.mostraTab('tab-home')">Cancelar</button>
+              <button class="botaoLogin" id="btnAvancarParaQuiz" disabled
+                style="margin: 0; width: auto; padding: 0 24px; opacity: 0.5; cursor: not-allowed;">
+                Avançar para Triagem
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-quiz" class="tab-content" style="display: none;">
+          <div class="quiz-layout">
+
+            <nav class="sintoma-nav">
+              <div class="sintoma-nav-header">
+                <span class="sintoma-nav-title">Sintomas</span>
+                <span class="counterSintomas" id="counterSintomas">0 / 12</span>
+              </div>
+              <ul class="listaSintomas" id="listaSintomas">
+              </ul>
+            </nav>
+            <div class="quiz-card quiz-card--wide" id="quiz-question-card">
+              <div class="quiz-header">
+                <div class="quiz-header-top">
+                  <span id="no-Questao">Sintoma 1 de 12</span>
+                  <div class="hexaProgresso" id="hexaProgresso"></div>
+                </div>
+                <div class="progressoBar">
+                  <div id="progressoFill"></div>
+                </div>
+              </div>
+              <div class="tagSintoma" id="tagSintoma"></div>
+              <h2 id="question-text" class="question-title">Carregando...</h2>
+              <p id="question-desc" class="question-desc">Lorem ipsum dolor sit amet.</p>
+              <div class="quiz-options" id="options-container"></div>
+              <button class="sairBtn" onclick="mostraTab('tab-home')">
+                Interromper triagem
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-infos" class="tab-content" style="display: none;">
+          <div class="quiz-card">
+            <div class="medico-perfil">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR30GVBuT4Moc4jFBUZbFGzfgokHNGeaYJHQ&s"
+                alt="foto do médico" class="medico-foto" />
+              <div>
+                <h2>Lorem Ipsum</h2>
+                <span class="badge" style="margin-bottom: 0;">Lorem ipsum</span>
+              </div>
+            </div>
+
+            <div class="gridInfo">
+              <div class="info-item"><strong>Lorem Ipsum:</strong> Lorem Ipsum</div>
+              <div class="info-item"><strong>Lorem Ipsum:</strong> Lorem ipsum dolor</div>
+              <div class="info-item"><strong>Lorem Ipsum:</strong> #0000</div>
+            </div>
+            <button class="socialBtn" style="margin-top: 20px;" onclick="mostraTab('tab-home')">Voltar</button>
+          </div>
+        </section>
+
+<section id="tab-historico" class="tab-content" style="display: none;">
+
+  <div class="quiz-card quiz-card--wide" style="text-align:left;">
+
+    <div class="badge">
+      HISTÓRICO
+    </div>
+
+    <h2>Histórico de Avaliações</h2>
+
+    <p style="
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-top: 6px;
+      margin-bottom: 20px;
+    ">
+      Consulte todas as avaliações já realizadas para um paciente.
+    </p>
+
+    <div style="
+      display:flex;
+      gap:10px;
+      margin-bottom:20px;
+    ">
+
+      <input
+        type="text"
+        id="historico-inscricao"
+        placeholder="Número de inscrição do paciente"
+        style="
+          flex:1;
+          padding:12px;
+          border:1px solid #d1d5db;
+          border-radius:8px;
+          font-size:1rem;
+        "
+      >
+
+      <input type="date" id="historico-data" style="padding:12px; border:1px solid #d1d5db; border-radius:8px; font-size:1rem;">
+      <input type="text" id="historico-nome" placeholder="Ou buscar por nome" style="flex:1; padding:12px; border:1px solid #d1d5db; border-radius:8px; font-size:1rem;">
+      <button
+        type="button"
+        id="btnBuscarHistorico"
+        class="botaoLogin"
+        style="
+          width:auto;
+          padding:0 24px;
+          margin:0;
+        "
+      >
+        Buscar
+      </button>
+
+    </div>
+
+    <div id="historico-list">
+
+      <p class="historico-vazio">
+        Informe um número de inscrição para visualizar o histórico.
+      </p>
+
+    </div>
+
+    <button
+      class="socialBtn"
+      style="margin-top:20px;"
+      onclick="mostraTab('tab-home')"
+    >
+      Voltar
+    </button>
+
+  </div>
+</section>
+
+  </div>
+</section>
+
+      <aside class="info-sidebar">
+        <h3>Lorem Ipsum</h3>
+        <div class="info-box">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.</p>
+        </div>
+        <div class="info-box" style="margin-top: 14px;">
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <script src="JS/style.js"></script>
+  <script type="module" src="JS/quiz.js" defer></script>
+</body>
+
+</html>
