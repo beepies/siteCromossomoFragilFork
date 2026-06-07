@@ -238,4 +238,45 @@ function contarRegistros($conn, $tabela, $campo, $valor) {
     
     return $row['total'];
 }
+
+// ====== CRIPTOGRAFIA ======
+
+/**
+ * Criptografa um valor usando AES-256-CBC
+ * @param string $valor Dado a ser criptografado
+ * @param string $chave Chave secreta (deve vir do .env)
+ * @return string|null Dado criptografado em base64 ou null se vazio
+ */
+function criptografar($valor, $chave) {
+    if (empty($valor)) return null;
+    
+    $algoritmo = 'aes-256-cbc';
+    $iv_tamanho = openssl_cipher_iv_length($algoritmo);
+    $iv = openssl_random_pseudo_bytes($iv_tamanho);
+    
+    $criptografado = openssl_encrypt($valor, $algoritmo, $chave, 0, $iv);
+    
+    // Unifica o IV e o texto criptografado em base64 para salvar com segurança
+    return base64_encode($iv . $criptografado);
+}
+
+/**
+ * Descriptografa um valor criptografado em AES-256-CBC
+ * @param string $valor_criptografado Dado criptografado salvo no banco
+ * @param string $chave Chave secreta (deve vir do .env)
+ * @return string|null Dado original ou null se falhar
+ */
+function descriptografar($valor_criptografado, $chave) {
+    if (empty($valor_criptografado)) return null;
+    
+    $algoritmo = 'aes-256-cbc';
+    $dados_decodificados = base64_decode($valor_criptografado);
+    $iv_tamanho = openssl_cipher_iv_length($algoritmo);
+    
+    // Separa o IV do texto criptografado real
+    $iv = substr($dados_decodificados, 0, $iv_tamanho);
+    $texto_cripto = substr($dados_decodificados, $iv_tamanho);
+    
+    return openssl_decrypt($texto_cripto, $algoritmo, $chave, 0, $iv);
+}
 ?>

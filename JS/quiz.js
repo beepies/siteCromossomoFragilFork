@@ -334,7 +334,7 @@ function renderHistoricoBanco(historico) {
                 Avaliação #${item.id_avaliacao}  ${item.nome_completo}
                     </span>
                     <span class="historico-date">
-                     ${new Date(item.data_avaliacao.replace(' ', 'T') + '+02:00').toLocaleString("pt-BR")}
+                     ${new Date(item.data_avaliacao).toLocaleString("pt-BR")}
                     </span>
 
                 </div>

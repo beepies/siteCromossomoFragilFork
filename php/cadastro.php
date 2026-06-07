@@ -3,10 +3,11 @@ require_once 'helpers.php';
 
 configurarErrorHandlers();
 $env = carregarEnv();
+$chave = $env['CHAVE_CRIPTOGRAFIA']; // Necessário para a função criptografar()
 $conn = conectarBanco($env);
 $dados = receberDados();
 
-// Extração das variáveis
+// 1. EXTRAÇÃO (Dados brutos/puros)
 $nome = trim($dados['nome'] ?? '');
 $registroProfissional = trim($dados['Registro_profissional'] ?? '');
 $especialidade = trim($dados['Especialidade'] ?? '');
@@ -15,7 +16,7 @@ $telefone = trim($dados['telefone'] ?? '');
 $instituicao = trim($dados['Instituicao'] ?? '');
 $senha = $dados['senha'] ?? '';
 
-// Validação básica 
+// 2. VALIDAÇÃO (Usando os dados originais/brutos)
 if (!validarCamposObrigatorios([
     'nome' => $nome,
     'email' => $email,
@@ -28,17 +29,33 @@ if (!validarCamposObrigatorios([
     responder('erro', 'Preencha todos os campos');
 }
 
+// 3. HASH DA SENHA (Senha NUNCA deve ser criptografada com AES reversível, apenas com Hash unidirecional)
 $senhaHash = password_hash($senha, PASSWORD_BCRYPT, ['cost' => 10]);
 
-$sql = "INSERT INTO profissional_saude (nome_completo, email, registro_profissional, especialidade, telefone, instituicao, senha_profissional) 
+// 4. CRIPTOGRAFIA (Apenas campos de exibição, NÃO criptografe identificadores de busca)
+$nome_cripto = criptografar($nome, $chave);
+$telefone_cripto = criptografar($telefone, $chave);
+$instituicao_cripto = criptografar($instituicao, $chave);
+
+// OBS: $email e $registroProfissional são mantidos como texto puro
+// para permitir a busca no login e validação de duplicidade.
+
+// 5. INSERT
+$sql = "INSERT INTO profissional_saude 
+        (nome_completo, email, registro_profissional, especialidade, telefone, instituicao, senha_profissional) 
         VALUES (?, ?, ?, ?, ?, ?, ?)";
+
 $stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    responder('erro', "Erro na preparação do banco: " . $conn->error);
-}
-
-$stmt->bind_param("sssssss", $nome, $email, $registroProfissional, $especialidade, $telefone, $instituicao, $senhaHash);
+// ...
+$stmt->bind_param("sssssss", 
+    $nome_cripto, 
+    $email, // <-- Enviando e-mail puro
+    $registroProfissional, // <-- Enviando CRM puro
+    $especialidade, 
+    $telefone_cripto, 
+    $instituicao_cripto, 
+    $senhaHash
+);
 
 if ($stmt->execute()) {
     responder('sucesso', "Usuário $nome cadastrado com sucesso");

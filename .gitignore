@@ -1,6 +1,3 @@
-# Pastas do PHP/Composer
-/vendor/
-
 # Arquivos de ambiente (SEGURANÇA!)
 .env
 
