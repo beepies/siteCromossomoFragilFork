@@ -406,3 +406,83 @@ ALTER TABLE profissional_saude ADD COLUMN nivel TINYINT NOT NULL DEFAULT 0;
 
 -- Muda o nível do primeiro profissional para adm
 UPDATE profissional_saude SET nivel = 2 WHERE id_profissional = 1;
+
+-- ALTER TABLE PARA MUDAR DEPENDENTE PARA
+-- RESPONSÁVEL LEGAL
+ALTER TABLE dependente RENAME TO responsavel_legal;
+ALTER TABLE responsavel_legal RENAME COLUMN id_dependente TO id_responsavel;
+ALTER TABLE responsavel_legal DROP COLUMN numero_inscricao;
+ALTER TABLE responsavel_legal DROP COLUMN data_nascimento;
+ALTER TABLE responsavel_legal DROP COLUMN sexo;
+ALTER TABLE responsavel_legal ADD COLUMN telefone VARCHAR(20);
+ALTER TABLE responsavel_legal ADD COLUMN parentesco VARCHAR(50);
+ALTER TABLE responsavel_legal RENAME COLUMN id_titular TO id_paciente;
+ALTER TABLE responsavel_legal DROP FOREIGN KEY responsavel_legal_ibfk_1;
+ALTER TABLE responsavel_legal ADD FOREIGN KEY (id_paciente) REFERENCES paciente_titular(id_paciente);
+
+-- MUDANDO TRIGGERS DEPENDENTE
+DROP TRIGGER limite_dependentes;
+DROP TRIGGER aplicar_peso_sintoma;
+DROP TRIGGER classificar_risco;
+
+DELIMITER //
+
+CREATE TRIGGER limite_dependentes
+BEFORE INSERT ON responsavel_legal
+FOR EACH ROW
+BEGIN
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total
+    FROM responsavel_legal
+    WHERE id_paciente = NEW.id_paciente;
+    IF total >= 4 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Este paciente já possui 4 responsáveis';
+    END IF;
+END //
+
+CREATE TRIGGER aplicar_peso_sintoma
+BEFORE INSERT ON avaliacao_sintoma
+FOR EACH ROW
+BEGIN
+    DECLARE sexo_paciente ENUM('Masculino','Feminino');
+    DECLARE v_peso DECIMAL(5,2);
+
+    SELECT p.sexo INTO sexo_paciente
+    FROM avaliacao_clinica a
+    JOIN paciente_titular p ON a.id_paciente = p.id_paciente
+    WHERE a.id_avaliacao = NEW.id_avaliacao;
+
+    IF NEW.presente = TRUE THEN
+        SELECT peso INTO v_peso
+        FROM peso_sintoma
+        WHERE id_sintoma = NEW.id_sintoma
+        AND sexo = sexo_paciente;
+        SET NEW.peso_aplicado = v_peso;
+    ELSE
+        SET NEW.peso_aplicado = 0;
+    END IF;
+END //
+
+CREATE TRIGGER classificar_risco
+BEFORE UPDATE ON avaliacao_clinica
+FOR EACH ROW
+BEGIN
+    DECLARE sexo_paciente ENUM('Masculino','Feminino');
+
+    SELECT sexo INTO sexo_paciente
+    FROM paciente_titular
+    WHERE id_paciente = NEW.id_paciente;
+
+    IF (
+        (sexo_paciente = 'Masculino' AND NEW.score >= 0.56)
+        OR
+        (sexo_paciente = 'Feminino' AND NEW.score >= 0.55)
+    ) THEN
+        SET NEW.classificacao_risco = 'Suspeito';
+    ELSE
+        SET NEW.classificacao_risco = 'Baixo Risco';
+    END IF;
+END //
+
+DELIMITER ;

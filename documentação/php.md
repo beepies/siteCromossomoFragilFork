@@ -16,7 +16,7 @@ O sistema é uma aplicação *Multi-page* onde:
 Centraliza toda a comunicação com a API.
 - **`postData(url, data)`**: Envia dados via POST, injetando automaticamente o token do `localStorage` no cabeçalho.
 - **`resultado(url, data, elementoForm)`**: Wrapper para submissão de formulários com limpeza automática após sucesso.
-- **`verificarSessao()`**: Valida a existência do token no carregamento de páginas restritas. Redireciona para `index.html` se inválido.
+- **`verificarSessao()`**: Valida a existência do token no carregamento de páginas restritas. Redireciona para `cadastro_medico.html` se inválido.
 
 ### Fluxo de Login
 1. Ao logar, o sistema salva o token recebido no `localStorage`.

@@ -21,12 +21,12 @@ Este arquivo contém a lógica central de comunicação com a API (PHP). Ele pad
 
 * **`verificarSessao()`**:
     * **Finalidade**: Guarda do sistema. Deve ser chamada no `DOMContentLoaded` de todas as páginas restritas.
-    * **Ação**: Se o token for inválido ou inexistente, redireciona para `index.html`.
+    * **Ação**: Se o token for inválido ou inexistente, redireciona para `cadastro_medico.html`.
 
 ## 2. Fluxos de Trabalho
 
 ### Fluxo de Login
-1. O usuário submete o formulário no `index.html`.
+1. O usuário submete o formulário no `cadastro_medico.html`.
 2. O sistema chama `resultado()` para enviar as credenciais para `login.php`.
 3. Ao receber sucesso e o token:
     * Salva o token em `localStorage.setItem('token_acesso', ...)`.

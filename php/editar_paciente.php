@@ -19,7 +19,7 @@ if ($nivel < 1) { responder('erro', 'Sem permissão para editar pacientes!!!');
 }
 
 // 2. DRY nas validações obrigatórias locais do PHP
-$obrigatorios = ['numero_inscricao', 'nome_completo', 'cpf', 'data_nascimento', 'sexo', 'novo_registro_profissional_atual'];
+$obrigatorios = ['numero_inscricao', 'nome_completo', 'cpf', 'data_nascimento', 'sexo'];
 if (!validarCamposObrigatorios($dados, $obrigatorios)) {
     responder('erro', 'Campos obrigatórios ausentes ou vazios.');
 }
@@ -28,13 +28,17 @@ if (!validarCamposObrigatorios($dados, $obrigatorios)) {
 $idAtualNoBanco = buscarPorCampo($conn, 'paciente_titular', 'id_profissional_atual', 'numero_inscricao', $dados['numero_inscricao']);
 if (!$idAtualNoBanco) responder('erro', 'Paciente não encontrado no sistema.');
 
-if (intval($idAtualNoBanco) !== intval($idMedicoLogado)) {
+if (intval($idAtualNoBanco) !== intval($idMedicoLogado) && $nivel < 2) {
     responder('erro', 'Acesso negado: Você não é o profissional responsável por este paciente.');
 }
 
-$idNovoProfissional = buscarPorCampo($conn, 'profissional_saude', 'id_profissional', 'registro_profissional', $dados['novo_registro_profissional_atual']);
-if (!$idNovoProfissional) responder('erro', 'O novo profissional informado não foi encontrado.');
-
+$registroNovo = trim($dados['novo_registro_profissional_atual'] ?? '');
+if (!empty($registroNovo)) {
+    $idNovoProfissional = buscarPorCampo($conn, 'profissional_saude', 'id_profissional', 'registro_profissional', $registroNovo);
+    if (!$idNovoProfissional) responder('erro', 'O novo profissional informado não foi encontrado.');
+} else {
+    $idNovoProfissional = $idAtualNoBanco;
+}
 // 4. Execução do Update
 $sql = "UPDATE paciente_titular SET 
             nome_completo = ?, cpf = ?, data_nascimento = ?, sexo = ?, 

@@ -26,7 +26,7 @@ $conn->close();
 session_start();
 session_destroy();
 
-// manda pro login
-header('Location: ../login.html');
+// manda pra pagina inicial
+header('Location: ../index.html');
 exit;
 ?>

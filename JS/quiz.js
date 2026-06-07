@@ -15,6 +15,35 @@ const div = document.createElement('div');
 div.textContent = iniciais;
 div.style.cssText = 'width:36px;height:36px;background:var(--primaria);color:white;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:0.85rem;font-family:Syne,sans-serif;flex-shrink:0;';
 avatar.parentNode.insertBefore(div, avatar);
+function criarAvatarCanvasLocal(nomeCompleto, tamanho = 120, corFundo = '#10b981', corTexto = '#ffffff') {
+    const iniciaisGrande = nomeCompleto
+        .trim()
+        .split(' ')
+        .slice(0, 2)
+        .map(n => n[0].toUpperCase()) // Pega as iniciais e deixa maiúsculo
+        .join('');
+    const canvas = document.createElement('canvas');
+    canvas.width = tamanho;
+    canvas.height = tamanho;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = corFundo;
+    ctx.beginPath();
+    ctx.arc(tamanho / 2, tamanho / 2, tamanho / 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = corTexto;
+    ctx.font = `bold ${tamanho / 2.5}px 'Syne', sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(iniciaisGrande, tamanho / 2, (tamanho / 2) + 2);
+    return canvas.toDataURL('image/png');}
+// seleciona a imagem grande da aba "Informações do médico"
+const fotoGrandeMedico = document.querySelector('.medico-foto');
+// se a imagem existir e tivermos o nome do usuário, gera e aplica um avatar
+if (fotoGrandeMedico && usuario &&usuario.nome_completo) {
+    const avatarGrandeBase64 = criarAvatarCanvasLocal(usuario.nome_completo, 120);
+    fotoGrandeMedico.src = avatarGrandeBase64;}
+
+
 document.querySelector('#tab-infos h2').textContent = usuario.nome_completo;
 document.querySelector('#tab-infos .badge').textContent = usuario.especialidade;
 document.querySelectorAll('#tab-infos .info-item')[0].innerHTML = '<strong>Registro:</strong> ' + usuario.registro_profissional;
@@ -22,7 +51,7 @@ document.querySelectorAll('#tab-infos .info-item')[1].innerHTML = '<strong>Espec
 document.querySelectorAll('#tab-infos .info-item')[2].innerHTML = '<strong>Instituição:</strong> ' + usuario.instituicao;
 const nivelUsuario = usuario.nivel ?? 0;
 if (nivelUsuario < 2) {
-    document.querySelectorAll('.dropdown a[href="cadastro_dependente.html"]').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.dropdown a[href="cadastro_responsavel.html"]').forEach(el => el.style.display = 'none');
     const linkGerenciar = document.getElementById('linkGerenciarUsuarios');
 if (linkGerenciar) linkGerenciar.style.display = 'none';}
 let questions = [];

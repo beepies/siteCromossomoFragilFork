@@ -20,14 +20,12 @@ const coletarDados = () => campos.reduce((dados, id) => {
 const validarCPF = cpf => cpf.replace(/\D/g, '').length === 11;
 
 function validarFormulario(dados) {
-    const obrigatorios = ['numero_inscricao', 'nome_completo', 'cpf', 'data_nascimento', 'sexo', 'novo_registro_profissional_atual'];
-    
+    const obrigatorios = ['numero_inscricao', 'nome_completo', 'cpf', 'data_nascimento', 'sexo'];
     // Procura se algum campo obrigatório está em branco
     const campoVazio = obrigatorios.find(campo => !dados[campo]?.trim());
     if (campoVazio) return `O campo obrigatório está vazio: ${campoVazio}`;
     
     if (!validarCPF(dados.cpf)) return 'CPF inválido (deve conter 11 dígitos).';
-    if (dados.novo_registro_profissional_atual.trim().length < 4) return 'O Novo Registro Profissional deve conter um formato válido.';
     
     return null;
 }

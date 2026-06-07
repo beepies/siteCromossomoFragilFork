@@ -48,14 +48,14 @@ Sistema web para cadastro e autenticação de profissionais de saúde.
 
 5. **Acesse a aplicação**
    ```
-   http://localhost/Site/index.html    (Cadastro)
+   http://localhost/Site/cadastro_medico.html    (Cadastro)
    http://localhost/Site/login.html    (Login)
    ```
 
 ## Estrutura do Projeto
 
 ```
-├── index.html           # Página de cadastro
+├── cadastro_medico.html           # Página de cadastro
 ├── login.html           # Página de login
 ├── JS/
 │   ├── cadastro.js     # Lógica do formulário de cadastro

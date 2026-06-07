@@ -31,7 +31,7 @@ async function fazerLogout() {
     });
     localStorage.removeItem('token_acesso');
     sessionStorage.removeItem('usuario');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
 // login fallback removed: preserve the page when the login block is absent

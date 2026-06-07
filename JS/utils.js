@@ -53,7 +53,7 @@ export async function verificarSessao() {
 
     if (!token) {
         alert("Sessão expirada ou inválida. Faça login novamente.");
-        window.location.href = 'index.html'; // Usuário não logado
+        window.location.href = 'cadastro_medico.html'; // Usuário não logado
         return false;
     }
 
@@ -71,7 +71,7 @@ export async function verificarSessao() {
         if (data.status !== 'sucesso') {
             alert("Sessão expirada ou inválida. Faça login novamente.");
             localStorage.removeItem('token_acesso');
-            window.location.href = 'index.html';
+            window.location.href = 'cadastro_medico.html';
             return false;
         }
         
@@ -80,7 +80,7 @@ export async function verificarSessao() {
 
         alert("Erro ao verificar sessão:", error);
         localStorage.removeItem('token_acesso');
-        window.location.href = 'index.html';
+        window.location.href = 'cadastro_medico.html';
         return false;
     }
     

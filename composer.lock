@@ -364,7 +364,7 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony polyfill backporting some PHP 8.0+ features to lower PHP versions",
+            "description": "Symfony polyfill backporting some PHP 8.0+ explicacoes to lower PHP versions",
             "homepage": "https://symfony.com",
             "keywords": [
                 "compatibility",
