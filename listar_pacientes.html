@@ -20,7 +20,8 @@
             <h2>Meus Pacientes</h2>
             <p>Abaixo estão os pacientes sob sua responsabilidade atual.</p>
         </div>
-
+        <input type="text" id="buscarPaciente" placeholder="Buscar...">
+        <div class="tabela-wrapper">
         <table>
             <thead>
                 <tr>
@@ -30,14 +31,15 @@
                     <th>Data de Nascimento</th>
                     <th>Telefone</th>
                     <th>Responsável</th>
-                    <th>Médico</th>
+                    <th>Profissional de Saúde</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody id="corpoTabelaPacientes">
             </tbody>
+            
         </table>
-
+        </div>
         <div id="mensagemStatus"></div>
 
         <button type="button" class="botaoVoltar" onclick="window.location.href='quiz.html'">Voltar</button>

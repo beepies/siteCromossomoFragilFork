@@ -45,12 +45,6 @@ if ($id_titular === null) {
     responder('erro', "Paciente titular não encontrado com CPF: $cpf_titular");
 }
 
-// Verifica limite de 4 responsaveis
-$total_responsaveis = contarRegistros($conn, 'responsavel_legal', 'id_paciente', $id_titular);
-if ($total_responsaveis >= 4) {
-    responder('erro', 'Este paciente já possui 4 responsáveis (limite atingido)');
-}
-
 // INSERT do dependente
 $sql = "INSERT INTO responsavel_legal (nome_completo, telefone, parentesco, email, id_paciente) 
         VALUES (?, ?, ?, ?, ?)";

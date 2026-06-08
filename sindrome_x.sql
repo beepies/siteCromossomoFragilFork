@@ -401,7 +401,7 @@ INSERT INTO peso_sintoma (id_sintoma, sexo, peso) VALUES
 
 
 -- Sistema de privileges, nivel 1, 2 e 3
--- NOVO MÉDICO NIVEL 0
+-- NOVO PROFISSIONAL NIVEL 0
 ALTER TABLE profissional_saude ADD COLUMN nivel TINYINT NOT NULL DEFAULT 0;
 
 -- Muda o nível do primeiro profissional para adm
@@ -486,3 +486,5 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DROP TRIGGER limite_dependentes;

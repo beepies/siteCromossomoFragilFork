@@ -74,7 +74,7 @@ formulario.addEventListener('submit', async function(event) {
     // 1. Coleta os campos preenchidos na interface (HTML)
     const dados = coletarDados();
     
-    // 2. Extrai o registro profissional do médico logado na sessão
+    // 2. Extrai o registro profissional do profissional logado na sessão
     const registroMedico = medicoLogado?.registro_profissional;
 
     if (!registroMedico) {

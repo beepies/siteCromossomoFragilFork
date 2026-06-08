@@ -164,8 +164,57 @@ td a:hover {
   transition: color 0.2s, background 0.2s;
 }
 
-.botaoVoltar:hover { color: var(--text); background: #f1f5f9; }
+#buscarPaciente {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    outline: none;
+    background: #fafcff;
+}
 
-@media (max-width: 600px) {
-  .lista-card { padding: 32px 16px; }
-  th, td { padding: 10px 8px; font-size: 0.8rem; }}
+#buscarPaciente:focus {
+    border-color: var(--primaria);
+    background: white;
+}
+
+.btn-pagina {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    background: white;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    transition: background 0.2s, color 0.2s;
+}
+
+#paginacao {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-pagina.ativo {
+    background: var(--primaria);
+    color: white;
+    border-color: var(--primaria);}
+
+.btn-pagina:hover {
+    background: var(--primaria);
+    color: white;
+    border-color: var(--primaria);
+}
+
+.tabela-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.botaoVoltar:hover { color: var(--text); background: #f1f5f9; }

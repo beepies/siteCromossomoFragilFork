@@ -27,7 +27,7 @@ formBuscar.addEventListener('submit', async function(event) {
     responsaveis.forEach(r => {
         const option = document.createElement('option');
         option.value = r.id_responsavel;
-        option.textContent = `${r.nome_completo} (${r.parentesco || '—'})`;
+        option.textContent = `${r.nome_completo} (${r.parentesco || '-'})`;
         selectResponsavel.appendChild(option);   });
     areaResponsaveis.style.display = 'block';
     formEditar.style.display = 'none';

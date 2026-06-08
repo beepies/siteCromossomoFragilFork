@@ -37,11 +37,11 @@ function criarAvatarCanvasLocal(nomeCompleto, tamanho = 120, corFundo = '#10b981
     ctx.fillText(iniciaisGrande, tamanho / 2, (tamanho / 2) + 2);
     return canvas.toDataURL('image/png');}
 // seleciona a imagem grande da aba "Informações do médico"
-const fotoGrandeMedico = document.querySelector('.medico-foto');
+const fotoGrandeProfissional = document.querySelector('.profissional-foto');
 // se a imagem existir e tivermos o nome do usuário, gera e aplica um avatar
-if (fotoGrandeMedico && usuario &&usuario.nome_completo) {
+if (fotoGrandeProfissional && usuario &&usuario.nome_completo) {
     const avatarGrandeBase64 = criarAvatarCanvasLocal(usuario.nome_completo, 120);
-    fotoGrandeMedico.src = avatarGrandeBase64;}
+    fotoGrandeProfissional.src = avatarGrandeBase64;}
 
 
 document.querySelector('#tab-infos h2').textContent = usuario.nome_completo;

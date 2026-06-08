@@ -17,6 +17,7 @@
             <h2>Gerenciar Usuários</h2>
             <p>Gerencie os níveis de acesso dos profissionais cadastrados no sistema.</p>
         </div>
+        <div class="tabela-wrapper">
         <table>
             <thead>
                 <tr>
@@ -31,6 +32,7 @@
             <tbody id="corpoTabelaUsuarios">
             </tbody>
         </table>
+        </div>
         <div id="mensagemStatus"></div>
         <button type="button" class="botaoVoltar" onclick="window.location.href='quiz.html'">Voltar</button>
     </div>
@@ -38,7 +40,7 @@
     <script type="module">
         import { getData, postData } from './JS/utils.js';
 
-        const labels = { 0: 'Pendente', 1: 'Médico', 2: 'Admin' };
+        const labels = { 0: 'Pendente', 1: 'Profissional de Saúde', 2: 'Admin' };
         const cores = {
             0: 'background:#f1f5f9;color:#64748b;',
             1: 'background:#dcfce7;color:#166534;',
