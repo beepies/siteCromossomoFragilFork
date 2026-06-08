@@ -135,6 +135,24 @@
           </div>
         </section>
 
+        <section id="tab-complementar" class="tab-content" style="display: none;">
+        <div class="quiz-card quiz-card--wide">
+          <div class="badge">Informações Complementares</div>
+          <h2>Histórico e Observações</h2>
+          <p class="question-desc">Registre informações clínicas adicionais antes de finalizar.</p>
+          <div class="inputGrupo" style="margin-top:20px;">
+            <label>Histórico familiar relevante:</label>
+            <textarea id="historico_familiar" rows="4" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-family:'Figtree',sans-serif;font-size:0.95rem;resize:vertical;" placeholder="Ex: casos de deficiência intelectual, autismo, menopausa precoce..."></textarea>
+          </div>
+          <div class="inputGrupo">
+            <label>Observações clínicas:</label>
+            <textarea id="observacoes" rows="4" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-family:'Figtree',sans-serif;font-size:0.95rem;resize:vertical;" placeholder="Observações adicionais do profissional..."></textarea>
+          </div>
+          <button class="botaoLogin" style="margin-top:16px;" onclick="salvarTriagem()">Finalizar e Salvar</button>
+          <button class="sairBtn" onclick="mostraTab('tab-home')">Cancelar</button>
+        </div>
+      </section>
+
         <section id="tab-infos" class="tab-content" style="display: none;">
           <div class="quiz-card">
             <div class="medico-perfil">

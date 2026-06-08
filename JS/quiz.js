@@ -281,27 +281,26 @@ async function finishQuiz() {
     const progressoFill = document.getElementById("progressoFill");
     if (progressoFill) progressoFill.style.width = "100%";
     updateProgressUI();
+    window.mostraTab("tab-complementar");
+}
 
-    // DRY: Enviando o número de inscrição capturado na aba intermediária
+window.salvarTriagem = async function() {
     const dadosForBackend = {
         numero_inscricao: numeroInscricaoPacienteAtual,
         timestamp: new Date().toISOString(),
         triagem_id: Math.floor(Math.random() * 100000),
-        dados: answers
+        dados: answers,
+        historico_familiar: document.getElementById('historico_familiar').value,
+        observacoes: document.getElementById('observacoes').value
     };
 
     try {
         const result = await postData("php/quiz.php", dadosForBackend);
-        
         historico.unshift(dadosForBackend);
         renderHistorico();
-
         alert(result.mensagem || "Triagem gravada com sucesso.");
-        
-        // Limpa o formulário de inscrição para a próxima consulta
         const inputInscricao = document.getElementById("numero_inscricao_triagem");
         if (inputInscricao) inputInscricao.value = "";
-        
         window.mostraTab("tab-home");
     } catch (error) {
         console.error("Falha ao enviar triagem:", error);
@@ -357,39 +356,38 @@ function renderHistoricoBanco(historico) {
                 .join(", ");
 
         return `
-            <div class="historico-item">
-                <div class="historico-header">
-                <span class="historico-id">
-                Avaliação #${item.id_avaliacao}  ${item.nome_completo}
-                    </span>
-                    <span class="historico-date">
-                     ${new Date(item.data_avaliacao.replace(' ', 'T') + '+02:00').toLocaleString("pt-BR")}
-                    </span>
+        <div class="historico-item">
+        <div class="historico-header">
+            <span class="historico-id">
+                Avaliação #${item.id_avaliacao} - ${item.nome_completo}
+            </span>
+            <span class="historico-date">
+                ${new Date(item.data_avaliacao.replace(' ', 'T') + '+02:00').toLocaleString("pt-BR")}
+            </span>
+        </div>
+        
+        <div class="historico-score">
+            Score: ${item.score ?? 0} | Classificação: ${item.classificacao_risco ?? "Não calculada"}
+        </div>
 
-                </div>
-                <div class="historico-score">
-                    Score: ${item.score ?? 0}
-                </div>
+        <div class="historico-dados" style="margin-top: 10px;">
+            <strong>Sintomas presentes:</strong><br>
+            ${sintomasPresentes || "Nenhum"}<br><br>
+            
+            <strong>Histórico Familiar:</strong><br>
+            ${item.historico_familiar ? item.historico_familiar : '<em>Não informado</em>'}<br><br>
+            
+            <strong>Observações:</strong><br>
+            ${item.observacoes ? item.observacoes : '<em>Nenhuma observação</em>'}
+        </div>
 
-                <div class="historico-score">
-                    Classificação:
-                    ${item.classificacao_risco ?? "Não calculada"}
-                </div>
-                <div class="historico-dados">
-                    <strong>
-                        Sintomas presentes:
-                    </strong>
-                    <br>
-                    ${sintomasPresentes || "Nenhum"}
-
-                </div>
-                <div style="margin-top: 12px; text-align: right;">
-                 <button onclick="window.open('imprimir_avaliacao.html?id=${item.id_avaliacao}', '_blank')"  class="socialBtn" style="width:auto; padding: 8px 20px;">
-              Imprimir
-             </button>
-                </div>
-            </div>
-    `;
+        <div style="margin-top: 12px; text-align: right;">
+            <button onclick="window.open('imprimir_avaliacao.html?id=${item.id_avaliacao}', '_blank')" class="socialBtn" style="width:auto; padding: 8px 20px;">
+                Imprimir ou salvar como PDF
+            </button>
+        </div>
+    </div>
+`;
 
     }).join("");
 }

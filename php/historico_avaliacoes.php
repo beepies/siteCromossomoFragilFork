@@ -61,13 +61,15 @@ SELECT
     ac.data_avaliacao,
     ac.score,
     ac.classificacao_risco,
+    ac.historico_familiar,
+    ac.observacoes,
     pt.nome_completo
 FROM avaliacao_clinica ac
 JOIN paciente_titular pt ON pt.id_paciente = ac.id_paciente
 WHERE ac.id_paciente = ?
 " . ($nivel < 2 ? "AND ac.id_profissional = ? " : "") . "
 " . (!empty($data_filtro) ? "AND DATE(ac.data_avaliacao) = ? " : "") . "
-ORDER BY ac.data_avaliacao DESC
+ORDER BY ac.id_avaliacao DESC
 ";
 
 $stmt = $conn->prepare($sql);

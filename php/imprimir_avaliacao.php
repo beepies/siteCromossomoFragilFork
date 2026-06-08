@@ -28,6 +28,8 @@ SELECT
     ac.data_avaliacao,
     ac.score,
     ac.classificacao_risco,
+    ac.historico_familiar,
+    ac.observacoes,
     pt.nome_completo AS nome_paciente,
     pt.cpf,
     pt.data_nascimento,

@@ -287,7 +287,7 @@
 
 <div class="acoes">
     <button class="btn-voltar" onclick="window.close()">Voltar</button>
-    <button class="btn-imprimir" onclick="window.print()">Imprimir</button>
+    <button class="btn-imprimir" onclick="window.print()">Imprimir ou salvar como PDF</button>
 </div>
 
 <div class="pagina" id="conteudo">
@@ -353,8 +353,21 @@
                             <div class="classificacao-score">Score total: <strong>${d.score ?? 0}</strong> - Limiar: <strong>${d.sexo === 'Masculino' ? '0.56' : '0.55'}</strong></div>
                         </div>
                     </div>
-                </div>
+                    </div>
 
+                <div class="secao">
+                    <span class="secao-titulo">Informações Adicionais</span>
+                    <div class="grid-2">
+                        <div class="info-item">
+                            <label>Histórico Familiar</label>
+                            <span>${d.historico_familiar ? d.historico_familiar : 'Não informado.'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Observações</label>
+                            <span>${d.observacoes ? d.observacoes : 'Nenhuma observação.'}</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="secao">
                     <span class="secao-titulo">Checklist de Sintomas</span>
                     <table>

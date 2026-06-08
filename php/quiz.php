@@ -14,6 +14,8 @@ if (!$id_profissional) responder('erro', 'Token inválido');
 $dados = receberDados();
 $numero_inscricao = trim($dados['numero_inscricao'] ?? '');
 $sintomas = $dados['dados'] ?? [];
+$historico_familiar = trim($dados['historico_familiar'] ?? '');
+$observacoes = trim($dados['observacoes'] ?? '');
 
 // 3. Busca de Paciente
 $id_paciente = buscarPorCampo($conn, 'paciente_titular', 'id_paciente', 'numero_inscricao', $numero_inscricao);
@@ -23,9 +25,9 @@ if (!$id_paciente) responder('erro', 'Paciente não encontrado');
 $conn->begin_transaction();
 
 try {
-    // Insere a avaliação
-    $stmt = $conn->prepare("INSERT INTO avaliacao_clinica (id_profissional, id_paciente, data_avaliacao) VALUES (?, ?, NOW())");
-    $stmt->bind_param("ii", $id_profissional, $id_paciente);
+// Insere a avaliação
+    $stmt = $conn->prepare("INSERT INTO avaliacao_clinica (id_profissional, id_paciente, data_avaliacao, historico_familiar, observacoes) VALUES (?, ?, NOW(), ?, ?)");
+    $stmt->bind_param("iiss", $id_profissional, $id_paciente, $historico_familiar, $observacoes);
     $stmt->execute();
     $id_avaliacao = $conn->insert_id;
     $stmt->close();
