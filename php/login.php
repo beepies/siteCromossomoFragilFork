@@ -36,9 +36,6 @@ if (!$usuario || !password_verify($senha, $usuario['senha_profissional'])) {
     responder('erro', "E-mail ou senha incorretos");
 }
 
-// =========================================================================
-// GERAÇÃO E SALVAMENTO DO TOKEN (Compatível com seu script de verificação)
-// =========================================================================
 
 // 1. Gera um token aleatório e seguro
 $token = bin2hex(random_bytes(32));
@@ -58,8 +55,6 @@ $stmtUpdate->bind_param("ssi", $token, $data_expiracao, $usuario['id_profissiona
 $stmtUpdate->execute();
 $stmtUpdate->close();
 
-// =========================================================================
-
 // Responde com sucesso e inclui os dados do usuário + O TOKEN para o Front-end
 ob_end_clean();
 header('Content-Type: application/json');
@@ -73,7 +68,6 @@ echo json_encode([
         'nome' => $usuario['nome_completo']
     ]
 ]);
-
 $stmt->close();
 $conn->close();
 ?>

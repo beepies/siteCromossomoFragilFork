@@ -488,3 +488,5 @@ END //
 DELIMITER ;
 
 DROP TRIGGER limite_dependentes;
+
+ALTER TABLE paciente_titular ADD COLUMN foto MEDIUMBLOB;

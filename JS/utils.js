@@ -85,8 +85,6 @@ export async function verificarSessao() {
     }
     
 }
-
-// Função universal para requisições GET (Adicione no seu utils.js)
 export async function getData(url = '') {
     const token = localStorage.getItem('token_acesso');
     

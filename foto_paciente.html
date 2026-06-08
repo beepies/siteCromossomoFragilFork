@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foto do Paciente - SXF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/foto_paciente.css">
+    <script type="module" src="JS/foto_paciente.js"></script>
+</head>
+<body>
+
+<div class="hex-bg"></div>
+<div class="hex-deco hex-deco-1"></div>
+<div class="hex-deco hex-deco-2"></div>
+
+<div class="card">
+    <h2 class="titulo">Foto do Paciente</h2>
+    <p class="subtitulo" id="nomePaciente">Carregando...</p>
+    <div class="foto-wrapper">
+        <div class="foto-placeholder" id="fotoPlaceholder">
+            <span>✚</span>
+            <small>Sem foto ainda</small>
+        </div>
+        <img class="foto-paciente" id="fotoPaciente" style="display:none;" alt="Foto do paciente">
+    </div>
+    <div class="upload-area">
+        <label class="botaoUpload" for="inputFoto">Selecionar foto de arquivos...</label>
+        <input type="file" id="inputFoto" class="input-file" accept="image/jpeg,image/png,image/webp">
+        <div class="preview-nome" id="previewNome"></div>
+        <button class="botaoSalvar" id="botaoSalvar">Salvar foto</button>
+    </div>
+    <div class="msg" id="msgStatus"></div>
+
+    <button class="botaoVoltar" onclick="window.location.href='listar_pacientes.html'">Voltar</button>
+</div>
+</body>
+</html>

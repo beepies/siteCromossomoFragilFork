@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const divMensagem = document.getElementById('mensagemStatus');
 
     try {
-        // DRY em ação: O seu utils.js resolve os headers e o token sozinho aqui!
         const dados = await getData('php/listar_pacientes.php');
 
         if (dados.status === 'sucesso') {
@@ -45,7 +44,10 @@ function renderPagina(lista) {
                                 ` : '-'}
                             </td>
                             <td>${paciente.medico_responsavel || '-'}</td>
-                            <td><a href="editar_paciente.html?inscricao=${paciente.numero_inscricao}">Editar</a></td>
+                            <td>
+                                <a href="editar_paciente.html?inscricao=${paciente.numero_inscricao}">Editar</a> |
+                                <a href="foto_paciente.html?inscricao=${paciente.numero_inscricao}&nome=${encodeURIComponent(paciente.nome_completo)}">Foto</a>
+                            </td>
                         `;
                         corpoTabela.appendChild(tr);   });
                      renderPaginacao(lista.length); }
