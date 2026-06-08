@@ -1,19 +1,27 @@
 import { getData } from './utils.js';
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    if (!id) {
-        document.getElementById('conteudo').innerHTML = '<div class="carregando">ID de avaliação não informado.</div>';
+const params = new URLSearchParams(window.location.search);
+const id = params.get('id');
+if (!id) {
+    document.getElementById('conteudo').innerHTML = '<div class="carregando">ID de avaliação não informado.</div>';
+} else {
+    const resposta = await getData(`php/imprimir_avaliacao.php?id=${id}`);
+
+    if (resposta.status !== 'sucesso') {
+        document.getElementById('conteudo').innerHTML = `<div class="carregando">${resposta.mensagem}</div>`;
     } else {
-        const resposta = await getData(`php/imprimir_avaliacao.php?id=${id}`);
+        const d = resposta.dados;
+        // Supondo que d.data_avaliacao seja
+        const dataString = d.data_avaliacao.replace(' ', 'T') ;
+        const dataincompleta = new Date(dataString);
 
-        if (resposta.status !== 'sucesso') {
-            document.getElementById('conteudo').innerHTML = `<div class="carregando">${resposta.mensagem}</div>`;
-        } else {
-            const d = resposta.dados;
-            const data = new Date(d.data_avaliacao.replace(' ', 'T') + '+02:00').toLocaleString('pt-BR');
-            const suspeito = d.classificacao_risco === 'Suspeito';
+        const data = dataincompleta.toLocaleString('pt-BR', {
+            timeZone: 'America/Sao_Paulo' // Define explicitamente para o Brasil
+        });
 
-            document.getElementById('conteudo').innerHTML = `
+        console.log(data); // "07/06/2026 19:52:35" (ajustado para -03:00)
+        const suspeito = d.classificacao_risco === 'Suspeito';
+
+        document.getElementById('conteudo').innerHTML = `
                 <div class="cabecalho">
                     <div class="logo">
                         <div class="logo-icon">✚</div>
@@ -94,5 +102,5 @@ import { getData } from './utils.js';
                     </div>
                 </div>
             `;
-        }
     }
+}

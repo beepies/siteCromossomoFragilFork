@@ -4,6 +4,7 @@ require_once 'helpers.php';
 // Inicialização padrão usando o helper
 configurarErrorHandlers();
 $env = carregarEnv();
+$chave = $env['CHAVE_CRIPTOGRAFIA']; // Necessário para a função descriptografar()
 $conn = conectarBanco($env);
 
 // Captura o token do cabeçalho da requisição
@@ -32,6 +33,9 @@ if ($user = $res->fetch_assoc()) {
     // Fecha o statement e a conexão ANTES de imprimir o resultado
     $stmt->close();
     $conn->close();
+    // Descriptografa os campos necessários antes de enviar a resposta
+    $user['nome_completo'] = descriptografar($user['nome_completo'], $chave);
+    $user['instituicao'] = descriptografar($user['instituicao'], $chave);
 
     // helpers.php não suporta enviar arrays extras pelo responder(),
     // criamos e enviamos o JSON manualmente em caso de sucesso:

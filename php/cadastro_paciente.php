@@ -22,11 +22,8 @@ $registro_profissional_atual = trim($dados['registro_profissional_atual'] ?? '')
 $nome_cripto = criptografar($nome_completo, $chave);
 $cpf_cripto = criptografar($cpf, $chave);
 $endereco_cripto = criptografar($endereco, $chave);
-$sexo_cripto = criptografar($sexo, $chave);
 $email_cripto = criptografar($email, $chave);
 $telefone_cripto = criptografar($telefone, $chave);
-$registro_profissional = criptografar($registro_profissional, $chave);
-$registro_profissional_atual = criptografar($registro_profissional_atual, $chave);
 
 
 // Validação de campos obrigatórios
@@ -50,7 +47,7 @@ if (!validarCPF($cpf)) {
 
 // Validação do email (se preenchido)
 if (!empty($email) && !validarEmail($email)) {
-    responder('erro', 'E-mail inválido');
+    responder('erro', "E-mail inválido. O PHP recebeu: [{$email}]");
 }
 
 // Busca os profissionais pelo CRM usando função compartilhada
@@ -79,7 +76,7 @@ if (!$stmt) {
     responder('erro', 'Erro ao preparar insert: ' . $conn->error);
 }
 
-$stmt->bind_param("ssssssssii", $numero_inscricao, $nome_cripto, $cpf_cripto, $data_nascimento, $sexo_cripto, $email_cripto, $telefone_cripto, $endereco_cripto, $id_profissional, $id_profissional_atual);
+$stmt->bind_param("ssssssssii", $numero_inscricao, $nome_cripto, $cpf_cripto, $data_nascimento, $sexo, $email_cripto, $telefone_cripto, $endereco_cripto, $id_profissional, $id_profissional_atual);
 
 if ($stmt->execute()) {
     responder('sucesso', "Paciente $nome_completo cadastrado com sucesso");
